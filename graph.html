@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Два полушария человечества — Графовое чтение</title>
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --surface: #fff;
+      --surface-2: #f5f5f0;
+      --border: #e0ddd5;
+      --text: #1a1a1a;
+      --text-dim: #555;
+      --text-muted: #888;
+      --accent: #2c4a7c;
+      --accent-light: #e8eef5;
+      --red: #8b2020;
+      --red-bg: #fdf2f2;
+      --green: #1a6b3c;
+      --green-bg: #f0faf4;
+      --amber: #7c5a10;
+      --amber-bg: #fdf8ee;
+      --L1: #2c4a7c;
+      --L1-bg: #f0f4fa;
+      --L2: #1a6b3c;
+      --L2-bg: #f0faf4;
+      --L3: #7c5a10;
+      --L3-bg: #fdf8ee;
+      --serif: 'Georgia', 'Times New Roman', 'Noto Serif', serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.85;
+      font-size: 17px;
+    }
+
+    header {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 80px 24px 48px;
+      border-bottom: 2px solid var(--text);
+    }
+
+    header .label {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: clamp(28px, 4.5vw, 42px);
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    header .subtitle {
+      font-size: 19px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    header .meta {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    article {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 48px 24px 120px;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 400;
+      margin: 56px 0 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: -0.3px;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      font-family: var(--sans);
+      margin: 28px 0 14px;
+      color: var(--text);
+    }
+
+    p { margin-bottom: 18px; }
+    strong { font-weight: 600; }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 14px 24px;
+      margin: 28px 0;
+      background: var(--accent-light);
+      font-style: italic;
+      color: var(--text-dim);
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 13px;
+      font-style: normal;
+      color: var(--text-muted);
+    }
+
+    figure {
+      margin: 24px 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+
+    figure pre {
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text);
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    figcaption {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 15px;
+    }
+
+    th {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 8px 12px;
+      border-bottom: 2px solid var(--text);
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .ref {
+      font-size: 12px;
+      vertical-align: super;
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--sans);
+      cursor: help;
+    }
+
+    .sep {
+      text-align: center;
+      margin: 40px 0;
+      color: var(--text-muted);
+      letter-spacing: 8px;
+      font-size: 14px;
+    }
+
+    /* ── Reading guide ── */
+    .guide {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 20px 24px;
+      margin: 24px 0;
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      font-family: var(--sans);
+    }
+
+    .guide .legend {
+      display: flex;
+      gap: 24px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .guide .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+
+    .guide .legend-item .swatch {
+      width: 16px;
+      height: 3px;
+      border-radius: 1px;
+    }
+
+    /* ── Exploration counter ── */
+    #explorer {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--text-muted);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      z-index: 100;
+      border-radius: 4px;
+      transition: opacity 0.3s;
+    }
+
+    #explorer .counter {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ── Branch triggers (nodes) ── */
+    .node {
+      border-bottom: 2px dotted var(--accent);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .node::after {
+      content: ' \25B8';
+      font-size: 10px;
+      color: var(--accent);
+      opacity: 0.6;
+      transition: transform 0.2s;
+    }
+
+    .node:hover {
+      background: var(--accent-light);
+    }
+
+    .node.open {
+      background: var(--accent-light);
+      border-bottom-style: solid;
+    }
+
+    .node.open::after {
+      content: ' \25BE';
+    }
+
+    .node.visited:not(.open) {
+      border-bottom-color: var(--text-muted);
+      opacity: 0.85;
+    }
+
+    .node.visited:not(.open)::after {
+      content: ' \2713';
+      color: var(--green);
+    }
+
+    /* ── Branch panels ── */
+    .branch {
+      display: none;
+      margin: 12px 0 24px 0;
+      padding: 20px 24px;
+      border-left: 3px solid var(--L1);
+      background: var(--L1-bg);
+      font-size: 16px;
+      line-height: 1.8;
+      position: relative;
+    }
+
+    .branch.open { display: block; animation: fadeIn 0.3s ease; }
+
+    .branch .branch {
+      border-left-color: var(--L2);
+      background: var(--L2-bg);
+      font-size: 15px;
+      margin: 10px 0 16px 0;
+      padding: 16px 20px;
+    }
+
+    .branch .branch .branch {
+      border-left-color: var(--L3);
+      background: var(--L3-bg);
+      font-size: 14px;
+    }
+
+    .branch .branch .node::after { color: var(--L2); }
+    .branch .branch .node { border-bottom-color: var(--L2); }
+    .branch .branch .node:hover { background: var(--L2-bg); }
+
+    .branch .close-hint {
+      font-family: var(--sans);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 8px;
+      cursor: pointer;
+    }
+
+    .branch .close-hint:hover { color: var(--accent); }
+
+    .branch .source {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .branch p:last-child { margin-bottom: 0; }
+
+    .branch table { font-size: 14px; }
+
+    .branch th { font-size: 10px; }
+
+    .branch figure { margin: 16px 0; padding: 16px; }
+
+    .branch figure pre { font-size: 12px; }
+
+    .crossref {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--accent);
+      padding: 6px 10px;
+      background: var(--accent-light);
+      margin-top: 12px;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .crossref:hover { text-decoration: underline; }
+
+    /* ── Grid ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .grid-2 .col {
+      border: 1px solid var(--border);
+      padding: 16px;
+      background: var(--surface);
+      font-size: 14px;
+    }
+
+    .grid-2 .col h4 {
+      font-family: var(--sans);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0 0 8px 0;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .grid-2 .col.a h4 { color: var(--red); }
+    .grid-2 .col.b h4 { color: var(--green); }
+
+    .grid-2 .col ul { list-style: none; padding: 0; font-size: 13px; color: var(--text-dim); }
+    .grid-2 .col ul li { padding: 3px 0; }
+
+    /* ── Box types ── */
+    .box {
+      border: 1px solid var(--border);
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+
+    .box h4 {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 0 0 8px 0;
+    }
+
+    .box p:last-child { margin-bottom: 0; }
+    .box.thesis { border-left: 4px solid var(--accent); background: var(--accent-light); }
+    .box.thesis h4 { color: var(--accent); }
+    .box.evidence { border-left: 4px solid var(--green); background: var(--green-bg); }
+    .box.evidence h4 { color: var(--green); }
+    .box.warning { border-left: 4px solid var(--red); background: var(--red-bg); }
+    .box.warning h4 { color: var(--red); }
+
+    /* ── References ── */
+    .references {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .references h2 {
+      border-bottom: 2px solid var(--text);
+      padding-bottom: 12px;
+      margin-top: 0;
+    }
+
+    .references ol {
+      padding-left: 24px;
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      font-family: var(--sans);
+      columns: 1;
+    }
+
+    .references li { margin-bottom: 6px; }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: var(--sans);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media print {
+      .node::after { display: none; }
+      .branch { display: block !important; border-left: 2px solid #ccc; }
+      #explorer { display: none; }
+      header { padding-top: 40px; }
+    }
+
+    @media (max-width: 640px) {
+      #explorer { bottom: 12px; right: 12px; padding: 8px 12px; }
+      .branch { padding: 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="label">Ветвистое исследование &middot; 65 источников</div>
+  <h1>Два полушария человечества</h1>
+  <p class="subtitle">
+    Симфония, которая раньше разучивалась по рёбрам,
+    теперь звучит целиком.
+  </p>
+  <div class="meta">
+    Илья Андронов &middot; Март 2026 &middot;
+    Графовое чтение: мысль = суперпозиция источников
+  </div>
+</header>
+
+<article>
+
+<div class="guide">
+  <strong>Как читать.</strong>
+  Основной текст &mdash; ствол. <span class="node" style="pointer-events:none;cursor:default">Подчёркнутые фразы</span> &mdash;
+  точки входа в глубину. Нажмите, чтобы раскрыть ветку: первоисточники,
+  доказательства, данные. Внутри веток &mdash; новые точки входа.
+  Вы выбираете глубину. Исследование не сокращалось &mdash;
+  оно свёрнуто в граф.
+  <div class="legend">
+    <div class="legend-item"><div class="swatch" style="background:var(--L1)"></div> Первый уровень</div>
+    <div class="legend-item"><div class="swatch" style="background:var(--L2)"></div> Второй уровень</div>
+    <div class="legend-item"><div class="swatch" style="background:var(--L3)"></div> Третий уровень</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>1. Отправная точка</h2>
+
+<p>
+  В феврале 2026 года Citrini Research<a class="ref" title="Citrini, 2026">[1]</a>
+  опубликовали сценарное исследование &laquo;Глобальный интеллектуальный кризис 2028&raquo;.
+  Цепочка: AI заменяет white-collar работников &rarr; SaaS-индустрия
+  схлопывается &rarr; платёжные сети теряют объёмы &rarr; частный
+  кредит рушится &rarr; безработица 10.2%,
+  S&amp;P&nbsp;&minus;38%. Доля труда в ВВП падает с 56% до 46% за два года.
+</p>
+
+<p>
+  Это правда. Но это не история. Это симптом.
+</p>
+
+<p>
+  За симптомом стоит процесс, который старше AI. Старше интернета.
+  Старше промышленной революции. Он прослеживается в мифологии шумеров,
+  в циклах <span class="node" data-branch="khaldun">Ибн Хальдуна</span><a class="ref" title="Ibn Khaldun, 1377">[2]</a>,
+  в волнах Кондратьева<a class="ref" title="Kondratiev, 1925">[3]</a>,
+  в данных Пикетти<a class="ref" title="Piketty, 2013">[4]</a>.
+  AI не породил нового конфликта. Он усилил существующий.
+  Чтобы понять, что происходит, нужно увидеть волну.
+</p>
+
+<!-- Branch: Ибн Хальдун -->
+<div class="branch" id="khaldun">
+  <p>
+    Абу Зейд ибн Хальдун в 1377 году описал цикл, который с тех пор
+    только подтверждался. <em>Asabiyyah</em> (солидарность, чувство
+    общности) &mdash; топливо цивилизации. Пустыня закаляет. Кочевники,
+    связанные общей судьбой, завоёвывают город. Строят. Процветают.
+    Роскошь разъедает asabiyyah. Третье поколение не помнит пустыни.
+    Четвёртое &mdash; падает.
+  </p>
+  <p>
+    Период цикла: ~120 лет (четыре поколения). Этот же паттерн
+    переоткрывали: Токвиль (1835) &mdash; тирания большинства;
+    Ортега (1930) &mdash; восстание масс;
+    Арендт (1951) &mdash; банальность зла;
+    Лэш (1979) &mdash; культура нарциссизма;
+    Турчин (2016) &mdash; вековые циклы и перепроизводство элит.
+    Семь формулировок за семь веков. Один паттерн.
+  </p>
+  <p class="source">
+    &rarr; Ibn Khaldun (1377), Muqaddimah; Turchin (2016), Ages of Discord
+  </p>
+</div>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>2. Волна</h2>
+
+<p>
+  Человечество колеблется между двумя полюсами. Один &mdash;
+  <strong>контроль</strong>: захватить, удержать, управлять.
+  Другой &mdash; <strong>созидание</strong>: создать, поделиться, вырастить.
+  Конфликт между ними &mdash; не случайное столкновение интересов.
+  Это <span class="node" data-branch="standing-wave">стоячая волна</span>.
+</p>
+
+<!-- Branch: стоячая волна -->
+<div class="branch" id="standing-wave">
+  <p>
+    Транзакционный анализ Берна (1964) / Харриса (1967) описывает четыре
+    жизненные позиции: Я&nbsp;ОК&mdash;Ты&nbsp;ОК, Я&nbsp;ОК&mdash;Ты&nbsp;не&nbsp;ОК,
+    Я&nbsp;не&nbsp;ОК&mdash;Ты&nbsp;ОК, Я&nbsp;не&nbsp;ОК&mdash;Ты&nbsp;не&nbsp;ОК.
+    Мы рассматриваем их как <strong>суперпозицию двух векторов</strong>:
+  </p>
+  <figure>
+<pre>
+Вектор 1 — СИЛА (контур отца):     слабость (−) ←————→ сила (+)
+Вектор 2 — ОТНОШЕНИЕ (контур матери): мир враждебен (−) ←————→ мир дружелюбен (+)
+</pre>
+    <figcaption>Два ортогональных вектора образуют пространство жизненных позиций.
+    Каждый наследуется &mdash; не генетически, но с устойчивостью,
+    сопоставимой с генетической.</figcaption>
+  </figure>
+  <table>
+    <tr><th></th><th>Мир дружелюбен (+)</th><th>Мир враждебен (&minus;)</th></tr>
+    <tr>
+      <td><strong>Сила (+)</strong></td>
+      <td><strong>Творец</strong><br><em>добрая сила</em></td>
+      <td><strong>Контролёр</strong><br><em>злая сила</em></td>
+    </tr>
+    <tr>
+      <td><strong>Слабость (&minus;)</strong></td>
+      <td>Служитель<br><em>добрая слабость</em></td>
+      <td>Жертва<br><em>злая слабость</em></td>
+    </tr>
+  </table>
+  <p>
+    Только два квадранта с положительным вектором силы формируют историю.
+    Слабость &mdash; будь она &laquo;добрая&raquo; или &laquo;злая&raquo; &mdash;
+    образует массу, но не вектор.
+  </p>
+  <p class="source">&rarr; Berne (1964); Harris (1967); Erikson (1950)</p>
+</div>
+
+<p>
+  У волны три параметра. <span class="node" data-branch="amplitude"><strong>Амплитуда</strong></span> &mdash; энергия
+  конфликта. При низкой амплитуде полюса сосуществуют: Медичи
+  финансируют Леонардо. При высокой &mdash; система ломается:
+  1789, 1917, 1939. Citrini показывает: доля труда в ВВП
+  приближается к значениям Великой депрессии. Амплитуда
+  на историческом максимуме.
+</p>
+
+<!-- Branch: Амплитуда -->
+<div class="branch" id="amplitude">
+  <p>
+    Амплитуда волны определяет, <em>сколько энергии</em> содержится
+    в конфликте между контролёром и творцом. Прокси-метрика &mdash;
+    доля труда в ВВП.
+  </p>
+  <div class="box evidence">
+    <h4>Наблюдаемый индикатор</h4>
+    <p>
+      По данным Citrini Research, в AI-сценарии labor share падает
+      с 56% (2024) до 46% (2028) &mdash; <strong>рекордное падение
+      за всю историю измерений</strong>. Для сравнения: Великая
+      депрессия &mdash; с 55% до 49% (BLS).
+    </p>
+  </div>
+  <p>
+    Низкая амплитуда: Медичи финансируют Леонардо. Венчурный капиталист
+    инвестирует в open-source стартап. Вектора не совпадают, но энергия
+    мала &mdash; система устойчива.
+    Высокая амплитуда: 1789, 1917, 1939. Gap &gt; threshold. Разрыв.
+  </p>
+  <p class="source">&rarr; Citrini (2026); BLS Historical Data; Piketty (2013)</p>
+</div>
+
+<p>
+  <span class="node" data-branch="frequency"><strong>Частота</strong></span> &mdash; скорость качания.
+  Аграрные циклы длились столетия. Индустриальные &mdash;
+  десятилетия. Информационные &mdash; годы. AI-циклы &mdash;
+  кварталы. Citrini моделирует полный деструктивный цикл
+  за 24 месяца. Раньше у общества были поколения для адаптации.
+  Сейчас &mdash; месяцы.
+</p>
+
+<!-- Branch: Частота -->
+<div class="branch" id="frequency">
+  <table>
+    <tr><th>Эра</th><th>Длина цикла</th><th>Примеры</th></tr>
+    <tr><td>Аграрная</td><td>Столетия</td><td>Рим: расцвет 500 лет, упадок 300</td></tr>
+    <tr><td>Индустриальная</td><td>Десятилетия</td><td>Кондратьевские волны: 40&ndash;60 лет</td></tr>
+    <tr><td>Информационная</td><td>Годы</td><td>Dot-com &rarr; крах = 5 лет</td></tr>
+    <tr><td><strong>AI</strong></td><td><strong>Кварталы</strong></td><td>Citrini: полный цикл за 24 мес.</td></tr>
+  </table>
+  <p>
+    Кондратьев (1925) показал: длинные экономические циклы определяются
+    технологическими революциями. Шумпетер (1942) формализовал как
+    &laquo;creative destruction&raquo;. Каждая технологическая революция
+    не только создаёт новый цикл, но и <strong>сокращает его период</strong>.
+  </p>
+  <div class="box warning">
+    <h4>Следствие</h4>
+    <p>
+      При ускоряющейся частоте время адаптации сокращается.
+      В аграрную эпоху &mdash; поколения. В индустриальную &mdash; десятилетие.
+      <strong>В AI-эпоху &mdash; месяцы.</strong> Успевают ли институты?
+    </p>
+  </div>
+  <p class="source">&rarr; Kondratiev (1925); Schumpeter (1942); Citrini (2026)</p>
+</div>
+
+<p>
+  <span class="node" data-branch="phase"><strong>Фаза</strong></span> &mdash; в какую сторону маятник движется
+  сейчас. 27 февраля 2026 года Пентагон потребовал от Anthropic
+  снять ограничения для автономного оружия и слежки.
+  CEO Дарио Амодей отказал<a class="ref" title="CBS News, 2026">[5]</a>.
+  Компанию исключили из государственных контрактов. Часами позже
+  OpenAI подписала контракт на тех же
+  условиях<a class="ref" title="CNBC, 2026">[6]</a>.
+  Два полюса столкнулись публично и необратимо.
+</p>
+
+<!-- Branch: Фаза -->
+<div class="branch" id="phase">
+  <table>
+    <tr><th>Период</th><th>Фаза</th><th>Маркеры</th></tr>
+    <tr><td>1945&ndash;1975</td><td>Созидание &rarr;</td><td>ООН, права человека, open science, NASA</td></tr>
+    <tr><td>1980&ndash;2020</td><td>&larr; Контроль</td><td>Неолиберализм, wealth concentration, surveillance capitalism</td></tr>
+    <tr><td>2020&ndash;2025</td><td>Переходная зона</td><td>COVID обнажил неравенство, AI начал ломать структуры</td></tr>
+    <tr><td><strong>Фев. 2026</strong></td><td><strong>Бифуркация</strong></td><td>Anthropic vs Pentagon &mdash; конфликт стал явным</td></tr>
+  </table>
+  <blockquote>
+    &laquo;These threats do not change our position: we cannot in good conscience
+    accede to their request.&raquo;
+    <cite>&mdash; Dario Amodei, CEO Anthropic, 26 Feb 2026</cite>
+  </blockquote>
+  <p>
+    Признаки смены фазы: Linux &mdash; 58% серверного рынка.
+    Bitcoin &mdash; 26 ГВт независимой инфраструктуры.
+    Gonka &mdash; 10,000+ GPU за 100 дней.
+    Два полюса столкнулись необратимо. Вопрос &mdash;
+    в какую сторону начнётся движение.
+  </p>
+  <p class="source">
+    &rarr; CBS News (2026); CNBC (2026); Piketty (2013); Zuboff (2019);
+    Forbes/Liberman (2026)
+  </p>
+</div>
+
+<p>
+  <span class="node" data-branch="ai-amplifier">AI усиливает обе стороны одновременно</span>.
+  Полюс контроля: автономное оружие,
+  массовая слежка, вытеснение работников. Полюс созидания: open source AI,
+  децентрализация compute<a class="ref" title="Forbes, Liberman">[7]</a>,
+  красные линии. Обе стороны становятся сильнее. Gap растёт.
+  Амплитуда нарастает. Это объясняет, почему AI вызывает одновременно
+  эйфорию и ужас: оба правы, но каждый видит только свой полюс.
+</p>
+
+<!-- Branch: AI усиливает -->
+<div class="branch" id="ai-amplifier">
+  <div class="grid-2">
+    <div class="col a">
+      <h4>Полюс контроля</h4>
+      <ul>
+        <li>Автономное оружие: дроны без human-in-the-loop</li>
+        <li>Mass surveillance: AI-анализ поведения в масштабе страны</li>
+        <li>Замена white-collar работников: labor share &darr;</li>
+        <li>Монополия: 5 компаний контролируют compute. NVIDIA: 94% GPU</li>
+      </ul>
+    </div>
+    <div class="col b">
+      <h4>Полюс созидания</h4>
+      <ul>
+        <li>Open source: Llama, Mistral, StableDiffusion</li>
+        <li>Децентрализация: Gonka &mdash; $80M, 10K+ GPU</li>
+        <li>Красные линии: Anthropic теряет $200M+ ради принципа</li>
+        <li>AI-инструменты для индивидуальных экспертов</li>
+      </ul>
+    </div>
+  </div>
+  <p>
+    Обе стороны сильнее. Gap увеличивается. <strong>Оба правы</strong> &mdash;
+    но каждый видит только свой полюс волны.
+  </p>
+</div>
+
+<p>
+  <span class="node" data-branch="fractal">Мандельброт</span><a class="ref" title="Mandelbrot, 1982">[8]</a> показал:
+  один и тот же паттерн воспроизводится на каждом масштабе. Семья
+  (авторитарный vs. авторизующий родитель), организация (иерархия vs.
+  open culture), софт (proprietary vs. open source), финансы (fiat vs.
+  Bitcoin), AI (замещение vs. продолжение эксперта), государство
+  (власть vs. интеллигенция). Та же волна. Разный масштаб. Фрактал.
+</p>
+
+<!-- Branch: Мандельброт / Фрактал -->
+<div class="branch" id="fractal">
+  <p>
+    Самоподобие через масштабы &mdash; не метафора, а математическое
+    свойство. Дневной, недельный и годовой графики фондового рынка
+    <strong>статистически неразличимы</strong> (Mandelbrot & Hudson, 2004).
+  </p>
+  <table>
+    <tr><th>Масштаб</th><th>Полюс контроля</th><th>Полюс созидания</th></tr>
+    <tr><td>Семья</td><td>Авторитарный родитель</td><td>Авторизующий родитель</td></tr>
+    <tr><td>Организация</td><td>Иерархия, NDA, IP lock-in</td><td>Open culture, knowledge sharing</td></tr>
+    <tr><td>Software</td><td>Proprietary</td><td>Open source</td></tr>
+    <tr><td>Финансы</td><td>Central banking, fiat</td><td>Bitcoin, DeFi</td></tr>
+    <tr><td>AI: compute</td><td>NVIDIA monopoly</td><td>Gonka, decentralized GPU</td></tr>
+    <tr><td>AI: применение</td><td>Autonomous weapons</td><td>Red lines, human-in-the-loop</td></tr>
+    <tr><td>AI: знание</td><td>Generic AI замещает эксперта</td><td>AI продолжает эксперта</td></tr>
+    <tr><td>Государство</td><td>Власть (управление)</td><td>Интеллигенция (cultivation)</td></tr>
+  </table>
+  <p>
+    На каждом масштабе &mdash; та же волна. На уровне индивида фрактал
+    воспроизводится как суперпозиция унаследованных векторов: каждый человек
+    несёт в себе обе частоты в пропорции, определённой двумя
+    <span class="node" data-branch="moire">контурами наследования</span>.
+  </p>
+  <!-- Sub-branch: Муаровый паттерн -->
+  <div class="branch" id="moire">
+    <p>
+      На основную волну накладывается <strong>цикл поколений</strong> (Ибн Хальдун /
+      Штраус и Хау, 1997). Когда &laquo;сильные люди&raquo; совпадают с фазой
+      созидания &mdash; золотые эпохи (Ренессанс, 1945&ndash;1975). Когда
+      &laquo;слабые люди&raquo; совпадают с фазой контроля &mdash; кризисы
+      (1930-е, текущий период).
+    </p>
+    <figure>
+<pre>
+Тяжёлые времена → рождают сильных людей
+     ↓
+Сильные люди → создают хорошие времена
+     ↓
+Хорошие времена → рождают слабых людей
+     ↓
+Слабые люди → создают тяжёлые времена
+     ↓    (цикл замыкается)
+</pre>
+      <figcaption>Цикл поколений. Период: 3&ndash;4 поколения (~80&ndash;100 лет).
+      Штраус и Хау (1997) назвали это &laquo;saeculum&raquo;.</figcaption>
+    </figure>
+    <div class="box warning">
+      <h4>Парадокс сжатого времени</h4>
+      <p>
+        Ибн Хальдун предполагал: каждый человек проживает одну фазу.
+        Ускорение частоты ломает это. Человек 1985 г.р. прожил: dot-com &rarr;
+        крах &rarr; восстановление &rarr; 2008 &rarr; AI-бум &rarr; 2026.
+        <strong>Цикл поколений схлопывается в цикл личной трансформации.</strong>
+      </p>
+    </div>
+    <p class="source">&rarr; Strauss & Howe (1997); Ibn Khaldun (1377)</p>
+  </div>
+  <p class="source">&rarr; Mandelbrot (1982, 2004)</p>
+</div>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>3. Корни</h2>
+
+<p>Откуда два полюса?</p>
+
+<p>Не из идеологии. Из психологии первых пяти лет жизни.</p>
+
+<p>
+  <span class="node" data-branch="mother"><strong>Контур матери</strong> (0&ndash;2 года)</span>.
+  Правое полушарие
+  младенца созревает первым<a class="ref" title="Schore, 1994">[9]</a>.
+  Оно формируется через аффективную настройку: мать отражает
+  эмоциональное состояние ребёнка, и из качества этого отражения
+  рождается первая модель мира &mdash; <em>безопасен он или
+  враждебен</em><a class="ref" title="Bowlby, 1969">[10]</a>.
+  Эриксон назвал это Trust vs. Mistrust<a class="ref" title="Erikson, 1950">[11]</a>.
+  Это первый вектор: <strong>отношение к миру</strong>.
+</p>
+
+<!-- Branch: Контур матери -->
+<div class="branch" id="mother">
+  <h3>Зеркальная функция</h3>
+  <p>
+    Winnicott (1971) первым сформулировал: лицо матери &mdash; первое зеркало.
+    Младенец смотрит на мать и видит <em>себя</em>. Если мать отражает
+    тревогу &mdash; мир тревожен. Если принятие &mdash; мир принимающ.
+  </p>
+  <p>
+    Stern (1985) уточнил: <em>аффективная настройка</em> &mdash; мать
+    соответствует не поведению, а <strong>внутреннему состоянию</strong>.
+    Ребёнок бьёт по столу &mdash; мать не бьёт, а издаёт звук с тем же
+    ритмом. Форма другая. Чувство &mdash; то же.
+  </p>
+  <p>
+    Bion (1962): <em>контейнирование</em>. Младенец проецирует невыносимое
+    (beta-элементы) на мать. Мать через &laquo;ревери&raquo; перерабатывает
+    их в переносимую форму (alpha-элементы) и возвращает.
+  </p>
+
+  <p>
+    <span class="node" data-branch="stillface">Что происходит, когда зеркало разбивается?</span>
+  </p>
+
+  <!-- Sub-branch: Still Face -->
+  <div class="branch" id="stillface">
+    <p>
+      <strong>Still Face Experiment</strong> (Tronick, 1978): мать поддерживает
+      зрительный контакт, но перестаёт реагировать. Лицо присутствует &mdash;
+      отклик отсутствует. За секунды: попытка привлечь внимание &rarr; отведение
+      взгляда &rarr; самоутешение &rarr; дистресс &rarr; отчаяние.
+      <strong>Воспроизведён более 80 раз.</strong>
+    </p>
+    <p>
+      <span class="node" data-branch="attachment">Ainsworth (1978)</span>
+      классифицировала результат:
+    </p>
+    <!-- Sub-sub-branch: Attachment -->
+    <div class="branch" id="attachment">
+      <table>
+        <tr><th>Паттерн</th><th>%</th><th>Модель мира</th></tr>
+        <tr><td><strong>Secure (B)</strong></td><td>~65%</td><td>Мир безопасен, я достоин заботы</td></tr>
+        <tr><td><strong>Avoidant (A)</strong></td><td>~21%</td><td>Мир ненадёжен, рассчитываю на себя</td></tr>
+        <tr><td><strong>Ambivalent (C)</strong></td><td>~14%</td><td>Мир непредсказуем, я недостаточно хорош</td></tr>
+        <tr><td><strong>Disorganized (D)</strong></td><td>~15%*</td><td>Стратегии нет, замирание</td></tr>
+      </table>
+      <p style="font-size:12px; color:var(--text-muted)">* Перекрывается с другими категориями.</p>
+      <p class="source">&rarr; Ainsworth (1978); Main & Solomon (1990)</p>
+    </div>
+    <p class="source">&rarr; Tronick (1978); Erikson (1950)</p>
+  </div>
+
+  <h3>Нейробиология: правое полушарие первым</h3>
+  <p>
+    Schore (1994): <strong>правое полушарие</strong> (эмоции, привязанность)
+    начинает ростовой спурт в последнем триместре и завершает к середине
+    второго года. Левое (язык, логика) стартует позже.
+    Привязанность формируется <em>до того, как ребёнок начинает говорить</em>.
+  </p>
+  <p>
+    Perry (2009): мозг развивается <em>снизу вверх</em> &mdash; ствол &rarr;
+    лимбика &rarr; кортекс. <strong>90% организации мозга завершается к 5 годам.</strong>
+    Van der Kolk (2014): &laquo;Всякая травма довербальна.&raquo;
+    При флешбэке зона Брока (речь) <strong>отключается</strong>.
+  </p>
+  <p class="source">
+    &rarr; Winnicott (1971); Stern (1985); Bion (1962);
+    Schore (1994); Perry (2009); Van der Kolk (2014)
+  </p>
+</div>
+
+<p>
+  <span class="node" data-branch="father"><strong>Контур отца</strong> (2&ndash;5 лет)</span>.
+  Paquette<a class="ref" title="Paquette, 2004">[12]</a> описал
+  <em>activation relationship</em>: отец возбуждает, дестабилизирует,
+  поощряет риск &mdash; и одновременно устанавливает границы.
+  Это тренировка agency &mdash; способности действовать.
+  Эриксон: Autonomy vs. Shame/Doubt.
+  Это второй вектор: <strong>сила</strong>.
+</p>
+
+<!-- Branch: Контур отца -->
+<div class="branch" id="father">
+  <h3>Активация, не утешение</h3>
+  <p>
+    Bowlby описал привязанность как <em>comfort</em> (стремление к безопасности).
+    Paquette (2004) дополнил: отец предоставляет не comfort, а
+    <strong>activation</strong> &mdash; возбуждение, дестабилизацию,
+    поощрение риска. Мать &mdash; безопасная гавань. Отец &mdash; открытое море.
+  </p>
+  <h3>Грубая игра как тренажёр</h3>
+  <p>
+    Rough-and-tumble play (Flanders, 2009): снижает агрессию и повышает
+    саморегуляцию. Но с критическим условием &mdash;
+    <strong>отец должен устанавливать лимиты</strong>.
+    Без лимитов RTP увеличивает агрессию.
+    Механизм: возбуждение &rarr; порог &rarr; граница &rarr;
+    торможение &rarr; возобновление. Цикл за циклом &mdash;
+    <em>буквально: отец учит управлять амплитудой</em>.
+  </p>
+  <h3>16 лет спустя</h3>
+  <p>
+    Grossmann (2002): <strong>16-летнее лонгитюдное исследование</strong> (n=44).
+    Чувствительная и вызывающая игра отца в 2 года
+    <strong>предсказывает привязанность подростка в 16 лет лучше,
+    чем классическая Strange Situation</strong>.
+  </p>
+  <p class="source">
+    &rarr; Paquette (2004); Flanders (2009); Grossmann (2002); Lamb (2010)
+  </p>
+</div>
+
+<p>
+  Два вектора &mdash; четыре квадранта. Сильный + мир дружелюбен = Творец.
+  Сильный + мир враждебен = Контролёр. Слабый + мир дружелюбен = Служитель.
+  Слабый + мир враждебен = Жертва. Но только два первых формируют историю.
+</p>
+
+<p>
+  Оба контура <span class="node" data-branch="generations">передаются через поколения</span>. Не генетически &mdash;
+  эпигенетически. AAI (Adult Attachment Interview), проведённый
+  <em>до рождения</em> ребёнка, предсказывает его тип привязанности
+  через год &mdash; на выборке 2774
+  диад<a class="ref" title="Main & Hesse, 1990">[13]</a>.
+  Передача идёт по довербальному каналу: правополушарная
+  синхронизация<a class="ref" title="Schore, 1994">[9]</a>,
+  эпигенетическое программирование стрессового
+  ответа<a class="ref" title="Weaver/Meaney, 2004">[14]</a>.
+</p>
+
+<!-- Branch: Передача через поколения -->
+<div class="branch" id="generations">
+  <h3>Призраки в детской</h3>
+  <p>
+    Fraiberg (1975) обнаружила: родители воспроизводят со своими детьми
+    сцены из собственного раннего детства &mdash; не помня их. <em>События</em>
+    иногда доступны сознательной памяти. <strong>Чувства &mdash; никогда.</strong>
+    Мать, которую не утешали, не знает как утешить. Не потому что не хочет &mdash;
+    в её теле нет этого опыта.
+  </p>
+  <h3>Предсказание до рождения</h3>
+  <p>
+    Main и Hesse (1990) создали AAI: оценивает не <em>что</em> человек
+    помнит, а <em>как</em> он об этом говорит. Результат: AAI матери
+    <strong>до рождения</strong> ребёнка предсказывает его привязанность
+    через год (N=2774, конкордантность 51&ndash;63%). Нерешённая травма
+    в речи &rarr; дезорганизованная привязанность у ребёнка.
+  </p>
+  <h3>Эпигенетический канал</h3>
+  <p>
+    Weaver/Meaney (2004): качество материнского ухода у крыс
+    перепрограммирует ген стрессового ответа через метилирование ДНК.
+    <strong>Кросс-фостеринг обращает эффект</strong> &mdash; передача
+    поведенческая, не генетическая. <em>Nature Neuroscience.</em>
+  </p>
+  <p>
+    Yehuda (2016): дети жертв Холокоста имеют изменённое метилирование
+    гена FKBP5 &mdash; <strong>первое доказательство</strong> пренатальной
+    эпигенетической передачи травмы у человека.
+  </p>
+  <div class="box warning">
+    <h4>Transmission Gap</h4>
+    <p>
+      van IJzendoorn (1995): наблюдаемая сензитивность объясняет лишь
+      <strong>часть</strong> передачи. Что-то ещё передаётся помимо видимого.
+      Гипотезы: правополушарная невербальная коммуникация, эпигенетика,
+      implicit relational knowing. Именно этот канал невидим
+      поведенческой генетике.
+    </p>
+  </div>
+  <p class="source">
+    &rarr; Fraiberg (1975); Main & Hesse (1990); Weaver (2004);
+    Yehuda (2016); van IJzendoorn (1995)
+  </p>
+</div>
+
+<p>
+  Есть <span class="node" data-branch="third-vector">третий вектор</span> &mdash;
+  направленность энергии внутрь или наружу.
+  Юнг назвал это интроверсией/экстраверсией. Он независим от первых
+  двух, наблюдается с 4 месяцев, наследуется на
+  40&ndash;60%<a class="ref" title="Bouchard, 1990">[15]</a>.
+  Два вектора дают плоскость. Третий даёт объём. А время
+  превращает объём в <span class="node" data-branch="spiral">спираль</span>: каждый уровень развития чередует
+  направленность (наружу &rarr; внутрь &rarr;
+  наружу)<a class="ref" title="Graves, 1970">[16]</a>.
+  Та же высота &mdash; разный уровень. Спираль, не маятник.
+</p>
+
+<!-- Branch: Третий вектор -->
+<div class="branch" id="third-vector">
+  <p>
+    Jung (1921): интроверсия/экстраверсия &mdash; не вопрос общительности,
+    а вопрос <strong>откуда приходит реальность</strong>. Направление
+    потока психической энергии.
+  </p>
+  <p>
+    Eysenck (1967): интроверты имеют <strong>хронически более высокий уровень
+    кортикального возбуждения</strong> &rarr; им нужно меньше внешней стимуляции.
+  </p>
+  <p>
+    Kagan (1994): <strong>высокореактивные младенцы в 4 месяца</strong>
+    становятся интровертами к 7 годам. 75% сохраняют направленность.
+    4 месяца &mdash; <em>до</em> формирования привязанности. Третий вектор
+    проявляется раньше первых двух.
+  </p>
+  <p>
+    Big Five (Costa & McCrae, 1992): Extraversion ортогонален к
+    Neuroticism (контур матери) и Conscientiousness (контур отца)
+    в <strong>36 культурах</strong>. Наследуемость: 40&ndash;60%
+    (Bouchard, Minnesota Twin Study). Три вектора &mdash; три измерения.
+  </p>
+  <figure>
+<pre>
+                  Мир дружелюбен (+)
+                        │
+            Творец      │      Служитель
+                        │
+Сила (+) ───────────────────────────── Слабость (−)
+                        │
+           Контролёр    │       Жертва
+                        │
+                  Мир враждебен (−)
+
+                  ↑ Это — плоскость (2D)
+
+Третий вектор (внутрь/наружу) выходит ИЗ плоскости:
+
+            наружу ←——— ○ ———→ внутрь
+
+Сильный Творец-интроверт ≠ Сильный Творец-экстраверт.
+Один строит в тишине. Другой строит в со-творении.
+</pre>
+    <figcaption>Три вектора: V1 &times; V2 = плоскость. V3 = глубина.</figcaption>
+  </figure>
+  <p class="source">
+    &rarr; Jung (1921); Eysenck (1967); Kagan (1994);
+    Costa & McCrae (1992); Bouchard (1990)
+  </p>
+</div>
+
+<!-- Branch: Спираль -->
+<div class="branch" id="spiral">
+  <p>
+    Graves (1970): восемь уровней существования, каждый чередует направленность
+    &mdash; express self (наружу) / sacrifice self (внутрь). Не маятник &mdash;
+    <strong>спираль</strong>: каждый возврат &laquo;внутрь&raquo; происходит
+    на более высоком уровне.
+  </p>
+  <table>
+    <tr><th>Уровень</th><th>Направление</th><th>Ценность</th></tr>
+    <tr><td>Beige</td><td>&rarr; наружу</td><td>Выживание</td></tr>
+    <tr><td>Purple</td><td>&larr; внутрь</td><td>Безопасность через принадлежность</td></tr>
+    <tr><td>Red</td><td>&rarr; наружу</td><td>Власть, доминирование</td></tr>
+    <tr><td>Blue</td><td>&larr; внутрь</td><td>Порядок, служение</td></tr>
+    <tr><td>Orange</td><td>&rarr; наружу</td><td>Достижение, успех</td></tr>
+    <tr><td>Green</td><td>&larr; внутрь</td><td>Общность, равенство</td></tr>
+    <tr><td>Yellow</td><td>&rarr; наружу</td><td>Интеграция, системное мышление</td></tr>
+    <tr><td>Turquoise</td><td>&larr; внутрь</td><td>Холистическое, глобальное</td></tr>
+  </table>
+  <p>
+    Kegan (1982): развитие сознания как серия subject-object transitions.
+    Piaget: ассимиляция (внутрь) / аккомодация (наружу).
+    Та же спираль. Тот же третий вектор, осциллирующий во времени.
+  </p>
+  <div class="box evidence">
+    <h4>Нейронный субстрат</h4>
+    <p>
+      Default Mode Network (DMN, внутреннее обращение) и Task-Positive Network (TPN, внешнее)
+      находятся в <strong>антикорреляции</strong>: когда одна активна, другая подавлена.
+      Нейронная реализация осцилляции внутрь/наружу &mdash; не метафора, а измеримый ритм.
+    </p>
+  </div>
+  <p class="source">
+    &rarr; Graves (1970); Beck & Cowan (1996); Kegan (1982)
+  </p>
+</div>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>4. Ускорение</h2>
+
+<p>Волна ускоряется. Но насколько?</p>
+
+<p>
+  <span class="node" data-branch="panov">Александр Панов</span><a class="ref" title="Panov, 2005">[17]</a>,
+  физик из МГУ, составил хронологию крупнейших фазовых переходов
+  в истории Земли &mdash; от зарождения жизни до наших дней &mdash;
+  и обнаружил закономерность, которая не должна была существовать.
+  Двадцать переходов за четыре миллиарда лет. Каждый следующий
+  интервал в ~2.67 раз короче предыдущего. Один и тот же
+  коэффициент &mdash; на всех масштабах. Биологическая эволюция,
+  культурная трансмиссия, технологические революции &mdash;
+  три разных субстрата, один закон.
+</p>
+
+<!-- Branch: Панов / Сингулярность -->
+<div class="branch" id="panov">
+  <p>
+    От зарождения жизни до эукариот &mdash; 2.5 миллиарда лет.
+    От эукариот до Кембрийского взрыва &mdash; миллиард.
+    От млекопитающих до гоминидов &mdash; 60 миллионов.
+    От Homo sapiens до земледелия &mdash; 90 тысяч.
+    От осевого времени до промышленной революции &mdash; 2300 лет.
+    От промышленной до информационной &mdash; 150 лет.
+  </p>
+  <p>
+    Каждый интервал в ~2.67 раз короче предыдущего. <strong>Один коэффициент
+    через 20 фазовых переходов и четыре миллиарда лет.</strong>
+  </p>
+  <p>
+    Независимо обнаружено:
+    Снукс (1996) &mdash; из экономической истории.
+    Фон Фёрстер (1960) &mdash; из демографии (особая точка ~2026).
+    Капица (1999) &mdash; из теории роста населения (~2000&ndash;2025).
+    Коротаев (2005) &mdash; формализовано математически.
+    Четыре учёных, разные дисциплины, один паттерн.
+  </p>
+  <p>
+    Экстраполяция сходится к точке ~2015&nbsp;&plusmn;&nbsp;20 лет.
+    Панов: это не конец, а <strong>смена режима</strong>.
+    Паттерн ускорения, державшийся четыре миллиарда лет, ломается.
+    Что-то качественно иное должно возникнуть.
+  </p>
+  <p class="source">
+    &rarr; Panov (2005); Snooks (1996); Von Foerster (1960);
+    Kapitsa (1999); Korotayev (2005)
+  </p>
+</div>
+
+<p>
+  Грэйм Снукс<a class="ref" title="Snooks, 1996">[18]</a>
+  обнаружил то же независимо. Фон Фёрстер<a class="ref" title="Von Foerster, 1960">[19]</a>
+  &mdash; из демографии.
+  Капица<a class="ref" title="Kapitsa, 1999">[20]</a>
+  &mdash; из теории роста населения.
+  Четыре учёных, разные дисциплины, один паттерн.
+</p>
+
+<p>
+  Мы не приближаемся к этой точке. Мы уже внутри.
+</p>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>5. Отказ от зова</h2>
+
+<p>
+  <span class="node" data-branch="campbell">Кэмпбелл</span><a class="ref" title="Campbell, 1949">[21]</a> обнаружил,
+  что мифы десятков культур рассказывают одну историю:
+  герой уходит, проходит через испытание, возвращается изменённым.
+  Уход&nbsp;&rarr;&nbsp;Инициация&nbsp;&rarr;&nbsp;Возвращение.
+  Это не сюжетная формула. Это форма, в которой сознание
+  переживает рост. Она воспроизводится на каждом масштабе &mdash;
+  от одного дня до цивилизации. Фрактал.
+</p>
+
+<!-- Branch: Кэмпбелл / Мономиф -->
+<div class="branch" id="campbell">
+  <p>
+    Гильгамеш, Одиссея, библейский Исход, буддийское просветление,
+    скандинавские саги &mdash; одна история:
+    <strong>Уход &rarr; Инициация &rarr; Возвращение.</strong>
+  </p>
+  <p>
+    Форма, в которой сознание переживает рост. Воспроизводится на каждом масштабе:
+    один день (проснулся &rarr; столкнулся &rarr; лёг другим),
+    один проект (вызов &rarr; провалы &rarr; прорыв),
+    одна жизнь (юность &rarr; зрелость &rarr; мудрость),
+    одна цивилизация (рождение &rarr; расцвет &rarr; трансформация).
+    Фрактал.
+  </p>
+  <p>
+    В терминах трёх векторов: Уход &mdash; V3 наружу (инициатива, риск).
+    Инициация &mdash; кризис: V1 проверяется (мир враждебен?),
+    V2 проверяется (справлюсь?), V3 разворачивается внутрь
+    (рефлексия, смерть старого &laquo;я&raquo;). Возвращение &mdash;
+    интеграция: все три вектора на новом уровне.
+    <strong>Один виток спирали = один путь героя.</strong>
+  </p>
+  <p>
+    <span class="node" data-branch="frankl">Франкл (1946)</span>
+    описал крайний случай:
+  </p>
+  <!-- Sub-branch: Франкл -->
+  <div class="branch" id="frankl">
+    <p>
+      Аушвиц. Все три вектора обнулены. Доверие &mdash; разрушено.
+      Сила &mdash; полное бессилие. Направленность &mdash; нет &laquo;наружу&raquo;.
+      Но что-то остаётся. <strong>Воля к смыслу.</strong> Сила, которая не сводится
+      к трём векторам. Франкл выжил. Многие из тех, кто был физически
+      сильнее &mdash; не выжили.
+    </p>
+    <p>
+      Джеймс (1902) различал &laquo;здоровые души&raquo; и &laquo;больные души&raquo;.
+      Первые приходят к духовному опыту через радость. Вторые &mdash; через страдание.
+      Разные пути. Та же сила.
+    </p>
+    <p class="source">&rarr; Frankl (1946); James (1902)</p>
+  </div>
+  <p class="source">&rarr; Campbell (1949)</p>
+</div>
+
+<p>
+  Одна из стадий мономифа &mdash; <em>отказ от зова</em>.
+  Герой слышит, но не идёт.
+</p>
+
+<p>
+  В 1930 году <span class="node" data-branch="ortega">Ортега-и-Гассет</span><a class="ref" title="Ortega y Gasset, 1930">[22]</a>
+  дал этому герою имя: <em>señorito satisfecho</em>.
+  Самодовольный наследник. Человек, выросший в мире технологий,
+  прав и медицины &mdash; и принимающий всё это как данность.
+  Его разум герметичен &mdash; закрыт для аргументов,
+  выходящих за пределы его желаний.
+</p>
+
+<!-- Branch: Ортега -->
+<div class="branch" id="ortega">
+  <blockquote>
+    Характерная черта момента: обыденный разум,
+    сознающий свою обыденность, имеет дерзость повсюду
+    утверждать право на обыденность и навязывать его.
+    <cite>&mdash; Ортега-и-Гассет, &laquo;Восстание масс&raquo;, глава 1</cite>
+  </blockquote>
+  <p>
+    &laquo;Человек-масса&raquo; Ортеги &mdash; не классовая категория.
+    Миллиардер может быть человеком-массой. Ремесленник может быть
+    &laquo;благородным&raquo;. Различие одно: <strong>требовательность
+    к себе</strong>. Тот, кто требует от себя больше, чем от других &mdash;
+    благородный. Тот, кто ничего от себя не требует &mdash; масса.
+  </p>
+  <p>
+    <strong>Варварство специализации:</strong> специалист знает свою область
+    досконально, но невежественен во всём остальном &mdash; и считает себя
+    вправе судить обо всём &laquo;со всей спесью того, кто учён в своей
+    узкой области&raquo;. Написано за 95 лет до того, как инженеры
+    генеративного AI стали решать вопросы этики и судьбы цивилизации.
+  </p>
+  <p>
+    В терминах мономифа: человек-масса &mdash; герой,
+    <strong>отказавшийся от зова</strong>. Он услышал. Мог бы уйти.
+    Остался в комфорте. Зов не исчез &mdash; превратился в раздражение,
+    тревогу, агрессию без цели.
+  </p>
+  <p class="source">&rarr; Ortega y Gasset (1930)</p>
+</div>
+
+<p>
+  OpenAI снимает политики безопасности. Массовый пользователь
+  требует: дай без ограничений. Señorito satisfecho
+  Ортеги, перенесённый в пространство AI.
+</p>
+
+<p>
+  Ибн Хальдун (1377), Токвиль (1835), Лё Бон (1895),
+  Ортега (1930), Арендт (1951), Лэш (1979),
+  Турчин<a class="ref" title="Turchin, 2016">[23]</a> (2016).
+  Семь формулировок за семь веков.
+  Один паттерн: цивилизация создаётся усилием,
+  разрушается правом на комфорт.
+</p>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>6. Суперпозиция</h2>
+
+<p>Но вот что изменилось.</p>
+
+<p>
+  Цикл Ибн Хальдуна занимал 120 лет. Каждый человек проживал одну
+  фазу. Ускорение Панова сломало это допущение. Несколько полных циклов
+  теперь приходятся на одну жизнь.
+</p>
+
+<p>
+  Раньше &laquo;сильный&raquo; и &laquo;слабый&raquo; были разными людьми.
+  Теперь это <span class="node" data-branch="superposition"><strong>суперпозиция внутри одного человека</strong></span>.
+  Ты можешь быть &laquo;благородным&raquo; Ортеги утром &mdash; создаёшь,
+  рискуешь, служишь проекту больше себя. И &laquo;человеком-массой&raquo;
+  вечером &mdash; скроллишь, требуешь, потребляешь.
+  Стоячая волна проникла внутрь индивида.
+</p>
+
+<!-- Branch: Суперпозиция -->
+<div class="branch" id="superposition">
+  <p>
+    AI усиливает обе стороны &mdash; тоже внутри одного человека.
+    AI-как-инструмент делает тебя творцом: ты создаёшь то, что
+    раньше требовало команды. AI-как-костыль делает тебя массой:
+    перестаёшь думать, перестаёшь проверять, передоверяешь.
+    Один инструмент. Два исхода. Выбор &mdash; в каждом действии.
+  </p>
+  <p>
+    <strong>AI &mdash; одновременно результат и аттрактор.</strong>
+    Результат &mdash; четыре миллиарда лет ускоряющихся переходов
+    привели сюда. Аттрактор &mdash; экономика, политика, война,
+    этика перестраиваются вокруг него.
+  </p>
+  <p>
+    Человек &mdash; тоже результат и аттрактор. Результат двух контуров,
+    трёх векторов, спирали развития. И аттрактор &mdash; его выборы
+    формируют следующий виток: ребёнок наследует не гены настроения,
+    а довербальную модель мира.
+  </p>
+  <p>
+    Точка бифуркации &mdash; одновременно на трёх масштабах:
+    <strong>цивилизационном</strong> (Контроль vs. Творение),
+    <strong>эпохальном</strong> (сингулярность Панова),
+    <strong>личном</strong> (суперпозиция в каждом). Три масштаба &mdash;
+    одна точка. <strong>Созвучие</strong> &mdash; фрактальный резонанс.
+  </p>
+</div>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2>7. Симфония</h2>
+
+<p>Раньше каждая дисциплина разучивала своё ребро отдельно.</p>
+
+<p>
+  Экономисты видели циклы. Психологи &mdash; привязанность.
+  Биологи &mdash; эндосимбиоз. Историки &mdash; империи и революции.
+  Мифологи &mdash; путь героя. Философы &mdash; массы и элиты.
+  Физики &mdash; ускорение. Математики &mdash; фракталы.
+  Каждый играл свою партию. Каждый слышал только себя.
+</p>
+
+<p>Сейчас рёбра зазвучали одновременно.</p>
+
+<p>
+  Пановское ускорение объясняет, почему Citrini прав в цифрах
+  и не видит целого. Ортегианский señorito satisfecho объясняет,
+  почему OpenAI снимает ограничения. Контур матери объясняет,
+  откуда берётся доверие или недоверие к миру. Мономиф Кэмпбелла
+  объясняет, почему мы переживаем это как кризис.
+  Мандельброт объясняет фрактал.
+  Пригожин<a class="ref" title="Prigogine, 1977">[24]</a>
+  объясняет, почему из кризиса рождается новый порядок.
+</p>
+
+<p>
+  Человечество &mdash; <span class="node" data-branch="closed-system">закрытая система</span>. Нет внешнего арбитра.
+  Все силы &mdash; внутренние. Но из этого следует
+  не безнадёжность, а <strong>неизбежность ответа</strong>.
+  В замкнутой фрактальной системе эскалация одного пика
+  невозможна без появления контр-гребня.
+</p>
+
+<!-- Branch: Закрытая система -->
+<div class="branch" id="closed-system">
+  <p>
+    Человечество замкнуто на себя в цивилизационном смысле.
+    Нет внешнего наблюдателя. Нет внешней инстанции. Каждая
+    коррекция &mdash; внутренняя. <strong>Ни один полюс не может
+    победить окончательно.</strong>
+  </p>
+  <p>
+    Империя, достигшая максимальной экстракции, порождает силу,
+    которая её разрушит &mdash; не потому что &laquo;добро побеждает
+    зло&raquo;, а потому что <strong>сложные замкнутые системы
+    фрактальны</strong>: каждое сжатие создаёт зону расширения
+    на следующем масштабе.
+  </p>
+  <h3>Революции как резонанс</h3>
+  <p>
+    Традиционно: революция = противофаза, угнетённые восстают.
+    Точнее: революция = <strong>резонанс</strong>. Частота внешнего
+    воздействия совпадает с собственной частотой системы. Система
+    начинает колебаться с нарастающей амплитудой &mdash; не потому
+    что появилась новая сила, а потому что <strong>накопленная энергия
+    нашла выход</strong>.
+  </p>
+  <p>
+    <span class="node" data-branch="feedback">Обратная связь без верификации</span> &mdash;
+    универсальный деструктивный механизм на всех масштабах:
+  </p>
+  <!-- Sub-branch: Обратная связь -->
+  <div class="branch" id="feedback">
+    <table>
+      <tr><th>Масштаб</th><th>Что возвращается на вход</th><th>Без верификации</th><th>Предотвращение</th></tr>
+      <tr><td>Акустика</td><td>Звуковая волна</td><td>Визг, повреждение</td><td>Направленная изоляция</td></tr>
+      <tr><td>Эпистемология</td><td>AI-текст</td><td>Hallucination, model collapse</td><td>Только verified experience</td></tr>
+      <tr><td>Оружие</td><td>AI-targeting решение</td><td>Гибель невинных</td><td>Human-in-the-loop</td></tr>
+      <tr><td>Экономика</td><td>AI-savings &rarr; AI-investment</td><td>Demand destruction</td><td>Income share / ownership</td></tr>
+    </table>
+    <p>
+      Предотвращение одно: <strong>разрыв петли через внешнюю верификацию</strong>.
+      Динамик не направлен в микрофон.
+      AI-output не принят как факт. Targeting не исполнен без человека.
+    </p>
+    <blockquote>
+      &laquo;The reliability is not there yet.&raquo;
+      <cite>&mdash; Dario Amodei, CEO Anthropic</cite>
+    </blockquote>
+    <p class="source">&rarr; Shumailov (2023), model collapse; Citrini (2026)</p>
+  </div>
+  <p class="source">&rarr; Mandelbrot (1982); Prigogine (1977)</p>
+</div>
+
+<p>
+  <span class="node" data-branch="endosymbiosis">Линн Маргулис</span><a class="ref" title="Margulis, 1967">[25]</a>
+  показала, что митохондрии &mdash; энергетические станции
+  каждой клетки &mdash; когда-то были отдельными организмами.
+  Не уничтожены. Не вытеснены. <strong>Интегрированы.</strong>
+  Клетка получила энергию. Митохондрия &mdash; защиту.
+  Обе стали чем-то, чем не были по отдельности.
+  Единственный паттерн из четырёх возможных, который привёл
+  к качественному скачку сложности. Без него не было бы нас.
+</p>
+
+<!-- Branch: Эндосимбиоз -->
+<div class="branch" id="endosymbiosis">
+  <p>
+    Четыре ответа на вопрос &laquo;кому принадлежит output AI&raquo;
+    воспроизводят четыре типа межвидового взаимодействия:
+  </p>
+  <table>
+    <tr><th>Ответ</th><th>Биологический тип</th><th>Исход</th></tr>
+    <tr><td><strong>Замещение</strong></td><td>Паразитизм</td><td>Гибель хозяина &rarr; гибель паразита</td></tr>
+    <tr><td><strong>Уничтожение</strong></td><td>Хищничество</td><td>Истощение среды &rarr; коллапс</td></tr>
+    <tr><td><strong>Инфраструктура</strong></td><td>Комменсализм</td><td>Сосуществование без развития</td></tr>
+    <tr><td><strong>Верификация</strong></td><td><strong>Эндосимбиоз</strong></td><td>Качественный скачок сложности</td></tr>
+  </table>
+  <p>
+    AI как &laquo;митохондрия&raquo; цивилизации: интегрируется внутрь
+    экспертного знания, усиливая хозяина при сохранении <strong>мембраны
+    верификации</strong>. Без мембраны &mdash; паразит. С мембраной &mdash;
+    эндосимбионт. <em>Верификация &mdash; это мембрана.</em>
+  </p>
+  <p class="source">&rarr; Margulis (1967)</p>
+</div>
+
+<p>
+  Знание &mdash; первый ресурс в истории, который не является
+  игрой с нулевой суммой<a class="ref" title="Romer, 2018">[26]</a>.
+  Эксперт, передавший знание, не утрачивает его.
+  Если фазовый переход состоится &mdash; знание, а не капитал,
+  станет средой нового равновесия. Интеллект &mdash;
+  не собственность одного полюса. Он &mdash;
+  <strong>консенсус</strong> между ними.
+</p>
+
+<p>
+  Симфония, которая раньше разучивалась по рёбрам,
+  теперь звучит целиком. Экономика, психология, биология,
+  мифология, математика, философия &mdash; не параллельные
+  дисциплины, а грани одного процесса, который сейчас,
+  впервые, слышен одновременно.
+</p>
+
+<p>Его звук &mdash; начало нового времени.</p>
+
+<blockquote>
+  Пещера, в которую ты боишься войти,
+  хранит сокровище, которое ты ищешь.
+  <cite>&mdash; Джозеф Кэмпбелл</cite>
+</blockquote>
+
+</article>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="references">
+<h2>Источники</h2>
+
+<ol>
+  <li>Citrini Research & Shah, A. (2026). <em>The 2028 Global Intelligence Crisis.</em></li>
+  <li>Ibn Khaldun (1377). <em>Muqaddimah.</em> Цикл asabiyyah.</li>
+  <li>Kondratiev, N.D. (1925). Большие циклы конъюнктуры. <em>Вопросы конъюнктуры.</em></li>
+  <li>Piketty, T. (2013). <em>Le Capital au XXI<sup>e</sup> si&egrave;cle.</em></li>
+  <li>CBS News (2026). Anthropic CEO says he's sticking to AI 'red lines' despite clash with Pentagon.</li>
+  <li>CNBC (2026). Trump admin blacklists Anthropic as AI firm refuses Pentagon demands.</li>
+  <li>Forbes (2026). Who Owns the Future of Compute? Liberman Brothers & Gonka AI.</li>
+  <li>Mandelbrot, B.B. (1982). <em>The Fractal Geometry of Nature.</em> W.H. Freeman.</li>
+  <li>Schore, A.N. (1994). <em>Affect Regulation and the Origin of the Self.</em> Lawrence Erlbaum.</li>
+  <li>Bowlby, J. (1969). <em>Attachment and Loss, Vol. 1.</em> Basic Books.</li>
+  <li>Erikson, E.H. (1950). <em>Childhood and Society.</em> W.W. Norton.</li>
+  <li>Paquette, D. (2004). Theorizing the Father-Child Relationship. <em>Human Development.</em></li>
+  <li>Main, M. & Hesse, E. (1990). Parents' Unresolved Traumatic Experiences. U. of Chicago Press. N=2774.</li>
+  <li>Weaver, I.C.G. et al. (2004). Epigenetic Programming by Maternal Behavior. <em>Nature Neuroscience.</em></li>
+  <li>Bouchard, T.J. et al. (1990). Sources of Human Psychological Differences. <em>Science.</em></li>
+  <li>Graves, C.W. (1970). Levels of Existence. <em>J. of Humanistic Psychology.</em></li>
+  <li>Панов А.Д. (2005). Сингулярная точка истории. <em>Общественные науки и современность.</em></li>
+  <li>Snooks, G.D. (1996). <em>The Dynamic Society.</em> Routledge.</li>
+  <li>Von Foerster, H. et al. (1960). Doomsday: Friday, 13 November, A.D. 2026. <em>Science.</em></li>
+  <li>Капица С.П. (1999). <em>Общая теория роста человечества.</em> М.: Наука.</li>
+  <li>Campbell, J. (1949). <em>The Hero with a Thousand Faces.</em> Pantheon Books.</li>
+  <li>Ortega y Gasset, J. (1930). <em>La rebeli&oacute;n de las masas.</em> Madrid.</li>
+  <li>Turchin, P. (2016). <em>Ages of Discord.</em> Beresta Books.</li>
+  <li>Prigogine, I. (1977). <em>Self-Organization in Nonequilibrium Systems.</em> Wiley. Нобелевская премия.</li>
+  <li>Margulis, L. (1967). On the Origin of Mitosing Cells. <em>J. Theoretical Biology.</em></li>
+  <li>Romer, P.M. (1990). Endogenous Technological Change. <em>J. Political Economy.</em> Нобелевская премия 2018.</li>
+  <li>Berne, E. (1964). <em>Games People Play.</em> Grove Press.</li>
+  <li>Harris, T.A. (1967). <em>I'm OK &mdash; You're OK.</em> Harper & Row.</li>
+  <li>Schumpeter, J.A. (1942). <em>Capitalism, Socialism and Democracy.</em> Harper.</li>
+  <li>Zuboff, S. (2019). <em>The Age of Surveillance Capitalism.</em> PublicAffairs.</li>
+  <li>Mandelbrot, B.B. & Hudson, R.L. (2004). <em>The (Mis)Behavior of Markets.</em> Basic Books.</li>
+  <li>Strauss, W. & Howe, N. (1997). <em>The Fourth Turning.</em> Broadway Books.</li>
+  <li>Shumailov, I. et al. (2023). The Curse of Recursion: Training on Generated Data. <em>arXiv:2305.17493.</em></li>
+  <li>Winnicott, D.W. (1971). <em>Playing and Reality.</em> Tavistock.</li>
+  <li>Stern, D.N. (1985). <em>The Interpersonal World of the Infant.</em> Basic Books.</li>
+  <li>Bion, W.R. (1962). <em>Learning from Experience.</em> Heinemann.</li>
+  <li>Tronick, E. et al. (1978). The Infant's Response to Entrapment. <em>J. Am. Acad. Child Psychiatry.</em></li>
+  <li>Ainsworth, M.D.S. et al. (1978). <em>Patterns of Attachment.</em> Lawrence Erlbaum.</li>
+  <li>Perry, B.D. (2009). Examining Child Maltreatment Through a Neurodevelopmental Lens. <em>J. Loss and Trauma.</em></li>
+  <li>Van der Kolk, B.A. (2014). <em>The Body Keeps the Score.</em> Viking.</li>
+  <li>Lamb, M.E. (Ed.) (2010). <em>The Role of the Father in Child Development</em> (5th ed.). Wiley.</li>
+  <li>Grossmann, K. et al. (2002). The Uniqueness of the Child-Father Attachment Relationship. <em>Social Development.</em></li>
+  <li>Flanders, J.L. et al. (2009). Rough-and-Tumble Play and Regulation of Aggression. <em>Aggressive Behavior.</em></li>
+  <li>Fraiberg, S. et al. (1975). Ghosts in the Nursery. <em>J. Am. Acad. Child Psychiatry.</em></li>
+  <li>Yehuda, R. et al. (2016). Holocaust Exposure Induced Intergenerational Effects on FKBP5. <em>Biological Psychiatry.</em></li>
+  <li>van IJzendoorn, M.H. (1995). Adult Attachment Representations. <em>Psychological Bulletin.</em></li>
+  <li>Jung, C.G. (1921). <em>Psychologische Typen.</em> Rascher Verlag.</li>
+  <li>Eysenck, H.J. (1967). <em>The Biological Basis of Personality.</em> Charles C. Thomas.</li>
+  <li>Kagan, J. (1994). <em>Galen's Prophecy: Temperament in Human Nature.</em> Basic Books.</li>
+  <li>Costa, P.T. & McCrae, R.R. (1992). <em>NEO-PI-R Professional Manual.</em> PAR.</li>
+  <li>Beck, D.E. & Cowan, C.C. (1996). <em>Spiral Dynamics.</em> Blackwell.</li>
+  <li>Kegan, R. (1982). <em>The Evolving Self.</em> Harvard University Press.</li>
+  <li>Frankl, V.E. (1946). <em>...trotzdem Ja zum Leben sagen.</em> (Man's Search for Meaning).</li>
+  <li>James, W. (1902). <em>The Varieties of Religious Experience.</em> Longmans.</li>
+  <li>Korotayev, A.V. (2005). A Compact Macromodel of World System Evolution. <em>J. of World-Systems Research.</em></li>
+  <li>Popper, K.R. (1957). <em>The Poverty of Historicism.</em> Routledge.</li>
+  <li>Taleb, N.N. (2007). <em>The Black Swan.</em> Random House.</li>
+  <li>Kahneman, D. (2011). <em>Thinking, Fast and Slow.</em> Farrar, Straus and Giroux.</li>
+  <li>Tainter, J.A. (1988). <em>The Collapse of Complex Societies.</em> Cambridge University Press.</li>
+  <li>Plomin, R. (2018). <em>Blueprint: How DNA Makes Us Who We Are.</em> MIT Press.</li>
+  <li>Harris, J.R. (1998). <em>The Nurture Assumption.</em> Free Press.</li>
+  <li>BLS (Bureau of Labor Statistics). Historical labor share data.</li>
+  <li>Tokugawa &amp; others. UN News (2025). Autonomous weapons deployment reports.</li>
+</ol>
+</div>
+
+<footer>
+  <p>
+    &copy; Илья Андронов, 2026.
+    Воспроизведение с указанием автора приветствуется.
+  </p>
+  <p style="margin-top:8px; font-size:12px;">
+    Формат: ветвистое исследование. Мысль &mdash; суперпозиция
+    источников. Каждая ветка &mdash; ребро графа знаний.
+  </p>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div id="explorer">
+  <span class="counter" id="exp-count">0</span> / <span id="exp-total">0</span> ветвей
+</div>
+
+<script>
+(function() {
+  const nodes = document.querySelectorAll('.node[data-branch]');
+  const total = nodes.length;
+  const visited = new Set();
+
+  document.getElementById('exp-total').textContent = total;
+
+  nodes.forEach(function(node) {
+    node.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const branchId = this.dataset.branch;
+      const branch = document.getElementById(branchId);
+      if (!branch) return;
+
+      const isOpen = branch.classList.contains('open');
+
+      if (isOpen) {
+        branch.classList.remove('open');
+        this.classList.remove('open');
+      } else {
+        branch.classList.add('open');
+        this.classList.add('open');
+        this.classList.add('visited');
+        visited.add(branchId);
+        document.getElementById('exp-count').textContent = visited.size;
+
+        // Smooth scroll to show branch
+        setTimeout(function() {
+          branch.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 50);
+      }
+    });
+  });
+
+  // Close hint clicks
+  document.querySelectorAll('.close-hint').forEach(function(hint) {
+    hint.addEventListener('click', function() {
+      var branch = this.closest('.branch');
+      if (branch) {
+        branch.classList.remove('open');
+        var trigger = document.querySelector('[data-branch="' + branch.id + '"]');
+        if (trigger) trigger.classList.remove('open');
+      }
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
