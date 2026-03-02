@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Два полушария человечества — Часть II: Контуры наследования</title>
+  <style>
+    :root {
+      --bg: #fafaf8;
+      --surface: #fff;
+      --surface-2: #f5f5f0;
+      --border: #e0ddd5;
+      --text: #1a1a1a;
+      --text-dim: #555;
+      --text-muted: #888;
+      --accent: #2c4a7c;
+      --accent-light: #e8eef5;
+      --red: #8b2020;
+      --red-bg: #fdf2f2;
+      --green: #1a6b3c;
+      --green-bg: #f0faf4;
+      --amber: #7c5a10;
+      --amber-bg: #fdf8ee;
+      --serif: 'Georgia', 'Times New Roman', 'Noto Serif', serif;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+      --mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--serif);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.85;
+      font-size: 17px;
+    }
+
+    header {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 80px 24px 48px;
+      border-bottom: 2px solid var(--text);
+    }
+
+    header .label {
+      font-family: var(--sans);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: clamp(28px, 4.5vw, 42px);
+      font-weight: 400;
+      line-height: 1.25;
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    header .subtitle {
+      font-size: 19px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+
+    header .meta {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    header .meta a { color: var(--accent); text-decoration: none; }
+
+    article {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 48px 24px 120px;
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 400;
+      margin: 56px 0 20px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: -0.3px;
+    }
+
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      font-family: var(--sans);
+      margin: 36px 0 14px;
+      color: var(--text);
+    }
+
+    h4 {
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--sans);
+      margin: 28px 0 10px;
+      color: var(--text-dim);
+    }
+
+    p { margin-bottom: 18px; }
+    strong { font-weight: 600; }
+
+    .abstract {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      margin: 32px 0;
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    .abstract h4 {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin: 0 0 12px 0;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--accent);
+      padding: 14px 24px;
+      margin: 28px 0;
+      background: var(--accent-light);
+      font-style: italic;
+      color: var(--text-dim);
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 13px;
+      font-style: normal;
+      color: var(--text-muted);
+    }
+
+    figure {
+      margin: 32px 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px;
+    }
+
+    figure pre {
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    figcaption {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 24px 0;
+      font-size: 15px;
+    }
+
+    th {
+      font-family: var(--sans);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      text-align: left;
+      padding: 10px 14px;
+      border-bottom: 2px solid var(--text);
+    }
+
+    td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    .box {
+      border: 1px solid var(--border);
+      padding: 24px;
+      margin: 28px 0;
+      font-size: 15px;
+    }
+
+    .box h4 {
+      font-family: var(--sans);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 0 0 12px 0;
+    }
+
+    .box p:last-child { margin-bottom: 0; }
+
+    .box.thesis { border-left: 4px solid var(--accent); background: var(--accent-light); }
+    .box.thesis h4 { color: var(--accent); }
+
+    .box.warning { border-left: 4px solid var(--red); background: var(--red-bg); }
+    .box.warning h4 { color: var(--red); }
+
+    .box.evidence { border-left: 4px solid var(--green); background: var(--green-bg); }
+    .box.evidence h4 { color: var(--green); }
+
+    .box.note { border-left: 4px solid var(--amber); background: var(--amber-bg); }
+    .box.note h4 { color: var(--amber); }
+
+    .ref {
+      font-size: 12px;
+      vertical-align: super;
+      color: var(--accent);
+      text-decoration: none;
+      font-family: var(--sans);
+      cursor: help;
+    }
+
+    .references {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 2px solid var(--text);
+    }
+
+    .references h2 { border: none; margin-top: 0; padding: 0; }
+
+    .references ol {
+      padding-left: 24px;
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      font-family: var(--sans);
+    }
+
+    .references li { margin-bottom: 8px; }
+    .references a { color: var(--accent); text-decoration: none; }
+
+    .sep {
+      text-align: center;
+      margin: 40px 0;
+      color: var(--text-muted);
+      letter-spacing: 8px;
+      font-size: 14px;
+    }
+
+    footer {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 32px 24px 80px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: var(--sans);
+    }
+
+    @media print {
+      header { padding-top: 40px; }
+      .box, figure, .abstract { break-inside: avoid; }
+      body { font-size: 12pt; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="label">Исследование &middot; Часть II</div>
+  <h1>Контуры наследования</h1>
+  <p class="subtitle">
+    Два вектора формируют плоскость. Третий даёт объём.
+    Время порождает спираль.
+  </p>
+  <div class="meta">
+    Март 2026 &middot; Аналитическое исследование
+  </div>
+  <nav style="margin-top: 16px; font-family: var(--sans); font-size: 13px;">
+    <a href="two-hemispheres-research.html">Часть I: Стоячая волна</a> &middot;
+    <strong>Часть II: Контуры наследования</strong> &middot;
+    <a href="two-hemispheres-part3.html">Часть III: Мономиф</a>
+  </nav>
+</header>
+
+<article>
+
+<div class="abstract">
+  <h4>Аннотация</h4>
+  <p>
+    В Части I мы описали цивилизационный конфликт как стоячую волну
+    между двумя полюсами — контролем и созиданием. Здесь мы спускаемся
+    на уровень индивида и исследуем <strong>происхождение</strong> этих
+    полюсов. Два вектора — отношение к миру (контур матери) и сила
+    (контур отца) — формируются в первые пять лет жизни по
+    последовательному нейробиологическому расписанию и передаются
+    через поколения по довербальному, подкорковому каналу.
+    Третий вектор — направленность энергии (внутрь/наружу) — добавляет
+    измерение, превращающее плоскость в объём. Во времени эта
+    трёхмерная структура разворачивается как <strong>спираль</strong>,
+    описанная Грейвсом: каждый уровень чередует направление —
+    express self, sacrifice self — и активирует свой архетип.
+  </p>
+</div>
+
+<!-- ============================================================ -->
+<h2>1. Первый вектор: контур матери (0–2 года)</h2>
+
+<div class="box thesis">
+  <h4>Тезис 6</h4>
+  <p>
+    Отношение человека к миру — базовое доверие или недоверие —
+    формируется в первые 18 месяцев жизни через <strong>аффективную
+    синхронизацию</strong> с матерью (primary caregiver). Этот вектор
+    определяет <em>среду</em>: мир как пространство для жизни
+    или территория для выживания.
+  </p>
+</div>
+
+<h3>1.1. Зеркальная функция</h3>
+
+<p>
+  Winnicott<a class="ref" title="Winnicott, 1971">[1]</a> первым
+  сформулировал: лицо матери — первое зеркало. Младенец смотрит
+  на мать и видит <em>себя</em>. Не своё отражение — свою
+  реальность. Если мать отражает тревогу — мир тревожен.
+  Если отражает принятие — мир принимающ.
+</p>
+
+<p>
+  Stern<a class="ref" title="Stern, 1985">[2]</a> уточнил механизм:
+  <em>аффективная настройка</em> (affect attunement) — мать
+  соответствует не поведению, а <strong>внутреннему состоянию</strong>
+  младенца. Ребёнок радостно бьёт по столу — мать не бьёт вместе с ним,
+  а издаёт звук с тем же ритмом и интенсивностью. Форма другая.
+  Чувство — то же. Так ребёнок узнаёт: мой внутренний мир видим.
+  Мой опыт существует для другого.
+</p>
+
+<p>
+  Bion<a class="ref" title="Bion, 1962">[3]</a> описал более глубокий
+  слой: <em>контейнирование</em>. Младенец проецирует невыносимые
+  переживания (beta-элементы) на мать. Мать через «ревери» (материнскую
+  мечтательность) перерабатывает их в переносимую форму (alpha-элементы)
+  и возвращает. Без этой функции ребёнок остаётся наедине с сырым,
+  непереработанным опытом.
+</p>
+
+<h3>1.2. Что происходит, когда зеркало разбивается</h3>
+
+<p>
+  Tronick<a class="ref" title="Tronick et al., 1978">[4]</a> доказал
+  это экспериментально. <strong>Still Face Experiment</strong>: мать
+  поддерживает зрительный контакт, но перестаёт реагировать. Лицо
+  присутствует — отклик отсутствует. За секунды младенец проходит
+  каскад: попытка привлечь внимание → отведение взгляда → самоутешение →
+  дистресс → отчаяние. Эксперимент воспроизведён <strong>более 80
+  раз</strong> — один из самых надёжных результатов в психологии
+  развития.
+</p>
+
+<p>
+  Ainsworth<a class="ref" title="Ainsworth et al., 1978">[5]</a>
+  классифицировала результат: три паттерна привязанности, формируемые
+  к 12-18 месяцам. Main и Solomon (1990) добавили четвёртый:
+</p>
+
+<table>
+  <tr>
+    <th>Паттерн</th>
+    <th>%</th>
+    <th>Модель мира</th>
+    <th>Стратегия</th>
+  </tr>
+  <tr>
+    <td><strong>Secure (B)</strong></td>
+    <td>~65%</td>
+    <td>Мир безопасен, я достоин заботы</td>
+    <td>Исследую мир, возвращаюсь за поддержкой</td>
+  </tr>
+  <tr>
+    <td><strong>Avoidant (A)</strong></td>
+    <td>~21%</td>
+    <td>Мир ненадёжен, рассчитываю на себя</td>
+    <td>Подавляю потребность в близости</td>
+  </tr>
+  <tr>
+    <td><strong>Ambivalent (C)</strong></td>
+    <td>~14%</td>
+    <td>Мир непредсказуем, я недостаточно хорош</td>
+    <td>Цепляюсь и отталкиваю одновременно</td>
+  </tr>
+  <tr>
+    <td><strong>Disorganized (D)</strong></td>
+    <td>~15%*</td>
+    <td>Мир невыносим, стратегии нет</td>
+    <td>Замирание, противоречивое поведение</td>
+  </tr>
+</table>
+
+<p style="font-size: 13px; color: var(--text-muted);">
+  * Disorganized перекрывается с другими категориями.
+</p>
+
+<p>
+  Erikson<a class="ref" title="Erikson, 1950">[6]</a> назвал это
+  <strong>Trust vs. Mistrust</strong> — первая стадия психосоциального
+  развития. Не выбор. Не решение. Программирование,
+  происходящее до появления слов и сознательной памяти.
+</p>
+
+<h3>1.3. Нейробиология: правое полушарие первым</h3>
+
+<p>
+  Schore<a class="ref" title="Schore, 1994">[7]</a> показал
+  нейробиологическую основу: <strong>правое полушарие</strong>
+  (эмоции, привязанность, невербальная коммуникация) начинает
+  ростовой спурт в последнем триместре и завершает его к середине
+  второго года. Левое (язык, логика) стартует позже.
+  Привязанность формируется в окне доминирования правого полушария —
+  буквально до того, как ребёнок начинает говорить.
+</p>
+
+<p>
+  Perry<a class="ref" title="Perry, 2009">[8]</a> добавил:
+  мозг развивается <em>снизу вверх</em> — ствол (дыхание, сердцебиение) →
+  лимбика (эмоции, привязанность) → кортекс (речь, абстракция).
+  <strong>90% организации мозга завершается к 5 годам.</strong>
+  Травма на нижних уровнях перекашивает всю архитектуру выше.
+</p>
+
+<p>
+  Van der Kolk<a class="ref" title="Van der Kolk, 2014">[9]</a>:
+  «Всякая травма довербальна.» При флешбэке зона Брока (речь)
+  <strong>отключается</strong> — человек буквально не может описать
+  словами то, что переживает. Тело хранит счёт.
+</p>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ============================================================ -->
+<h2>2. Второй вектор: контур отца (2–5 лет)</h2>
+
+<div class="box thesis">
+  <h4>Тезис 7</h4>
+  <p>
+    Способность действовать в мире — agency, сила, саморегуляция
+    возбуждения — формируется через <strong>activation relationship</strong>
+    с отцом (или вторым значимым взрослым). Этот вектор определяет
+    <em>амплитуду</em>: способность оставить след в мире
+    или быть унесённым его течением.
+  </p>
+</div>
+
+<h3>2.1. Активация, не утешение</h3>
+
+<p>
+  Bowlby<a class="ref" title="Bowlby, 1969">[10]</a> описал привязанность
+  как <em>comfort</em> — стремление к безопасности. Paquette<a class="ref"
+  title="Paquette, 2004">[11]</a> дополнил: отец предоставляет не comfort,
+  а <strong>activation</strong> — возбуждение, дестабилизацию,
+  поощрение риска. Мать — безопасная гавань. Отец — открытое море.
+</p>
+
+<p>
+  Эволюционно: мать специализируется на <strong>внутренней защите</strong>
+  (питание, утешение, социальная гармония). Отец — на
+  <strong>внешней защите</strong> (конфронтация с миром,
+  исследование, вызов)<a class="ref" title="Lamb, 2010">[12]</a>.
+  Два контура — не дублирование, а <em>комплементарность</em>.
+</p>
+
+<h3>2.2. Грубая игра как тренажёр</h3>
+
+<p>
+  Rough-and-tumble play (RTP) — отцовская грубая игра — не побочный
+  продукт, а <strong>механизм настройки</strong>. Flanders et
+  al.<a class="ref" title="Flanders et al., 2009">[13]</a> показали:
+  RTP снижает агрессию и повышает саморегуляцию. Но с критическим
+  условием: <strong>отец должен устанавливать лимиты во время
+  игры</strong>. Без лимитов — RTP увеличивает агрессию.
+</p>
+
+<p>
+  Механизм: ребёнок возбуждается → достигает порога → отец
+  устанавливает границу → ребёнок учится тормозить возбуждение →
+  возобновление. Цикл за циклом — калибровка внутреннего
+  регулятора. Буквально: отец учит управлять амплитудой.
+</p>
+
+<h3>2.3. 16 лет спустя</h3>
+
+<p>
+  Grossmann et al.<a class="ref" title="Grossmann et al., 2002">[14]</a>
+  провели <strong>16-летнее лонгитюдное исследование</strong>
+  (n=44 семьи). Результат: качество чувствительной и вызывающей
+  игры отца с ребёнком в 2 года <strong>предсказывает привязанность
+  подростка в 16 лет лучше, чем классическая Strange Situation</strong>
+  (которая измеряет материнскую привязанность).
+</p>
+
+<p>
+  Оба контура работают одновременно, но независимо:
+  secure mother-attachment + sensitive father-play → лучший результат.
+  Каждый из двух измерим отдельно. Два вектора — два измерения
+  одного пространства.
+</p>
+
+<p>
+  Erikson<a class="ref" title="Erikson, 1950">[6]</a>: стадия 2 —
+  <strong>Autonomy vs. Shame/Doubt</strong> (18 мес. – 3 года).
+  Воля. Независимость. Самоутверждение. Или — стыд и сомнение
+  в своей способности действовать.
+</p>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ============================================================ -->
+<h2>3. Передача через поколения</h2>
+
+<div class="box thesis">
+  <h4>Тезис 8</h4>
+  <p>
+    Оба контура передаются межпоколенчески — не через гены
+    и не через сознательное воспитание, а через
+    <strong>довербальный подкорковый канал</strong>:
+    правополушарную аффективную синхронизацию, эпигенетическое
+    программирование стрессового ответа и implicit relational
+    knowing. Этот канал невидим классической поведенческой генетике.
+  </p>
+</div>
+
+<h3>3.1. Призраки в детской</h3>
+
+<p>
+  Fraiberg<a class="ref" title="Fraiberg et al., 1975">[15]</a>
+  обнаружила: родители воспроизводят со своими детьми сцены
+  из собственного раннего детства — не помня их. <em>События</em>
+  иногда доступны сознательной памяти. <strong>Чувства</strong> —
+  никогда. Мать, которую не утешали, не знает как утешить.
+  Не потому что не хочет — потому что в её теле нет этого опыта.
+</p>
+
+<p>
+  Но есть и выход: «Когда родитель может встретить этих призраков —
+  может вынести знание о боли и ужасе в собственном прошлом —
+  он начинает отделять прошлое от настоящего.»
+</p>
+
+<h3>3.2. Предсказание до рождения</h3>
+
+<p>
+  Main и Hesse<a class="ref" title="Main & Hesse, 1990">[16]</a>
+  создали Adult Attachment Interview (AAI) — структурированное
+  интервью, оценивающее не <em>что</em> человек помнит о детстве,
+  а <em>как</em> он об этом говорит: когерентность нарратива,
+  способность интегрировать негативный опыт.
+</p>
+
+<p>
+  Результат: AAI матери, проведённый <strong>до рождения
+  ребёнка</strong>, предсказывает тип привязанности этого ребёнка
+  через год — на выборке <strong>2774 диад</strong>.
+  Конкордантность: 51-63%. Нерешённая травма в речи матери
+  → дезорганизованная привязанность у ребёнка.
+</p>
+
+<h3>3.3. Эпигенетический канал</h3>
+
+<p>
+  Meaney (Weaver et al.)<a class="ref" title="Weaver/Meaney, 2004">[17]</a>
+  показали на крысах: качество материнского ухода (licking/grooming)
+  перепрограммирует ген стрессового ответа (glucocorticoid receptor)
+  через метилирование ДНК. Высокий уход → низкий стресс-ответ.
+  Низкий уход → высокий. И ключевое: <strong>кросс-фостеринг
+  обращает эффект</strong>. Детёныш тревожной матери, выращенный
+  спокойной матерью, получает спокойный эпигеном. Передача —
+  поведенческая, не генетическая. Опубликовано в Nature Neuroscience.
+</p>
+
+<p>
+  Yehuda<a class="ref" title="Yehuda et al., 2016">[18]</a>
+  обнаружила аналогичное у людей: дети жертв Холокоста имеют
+  изменённое метилирование гена FKBP5 (стрессовый ответ) —
+  <strong>первое доказательство</strong> пренатальной
+  эпигенетической передачи травмы у человека.
+</p>
+
+<div class="box warning">
+  <h4>Transmission Gap</h4>
+  <p>
+    van IJzendoorn<a class="ref" title="van IJzendoorn, 1995">[19]</a>
+    показал: наблюдаемая сензитивность матери объясняет лишь
+    <strong>часть</strong> передачи привязанности. Что-то ещё
+    передаётся помимо видимого поведения — это «transmission gap».
+    Гипотезы: правополушарная невербальная коммуникация,
+    эпигенетические механизмы, implicit relational knowing.
+    Именно этот канал невидим поведенческой генетике,
+    измеряющей «shared environment» через вербальные тесты.
+  </p>
+</div>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ============================================================ -->
+<h2>4. Третий вектор: направленность (внутрь/наружу)</h2>
+
+<div class="box thesis">
+  <h4>Тезис 9</h4>
+  <p>
+    Два вектора — доверие к миру и сила — образуют плоскость.
+    Третий вектор — <strong>направленность психической энергии</strong>
+    (внутрь/наружу, introversion/extroversion) — добавляет измерение,
+    превращающее плоскость в объём. Это биологически обусловленное,
+    частично наследуемое и статистически независимое от первых
+    двух измерение, наблюдаемое с четвёртого месяца жизни.
+  </p>
+</div>
+
+<h3>4.1. Не социальное предпочтение — эпистемологическая ориентация</h3>
+
+<p>
+  Jung<a class="ref" title="Jung, 1921">[20]</a> определил интроверсию
+  и экстраверсию как два фундаментальных <em>отношения</em> (Einstellungen)
+  психики — направление потока либидо (психической энергии).
+  Интроверт направляет энергию внутрь, к субъективному миру идей
+  и переживаний. Экстраверт — наружу, к объективному миру
+  людей и вещей. Это не вопрос общительности — это вопрос
+  <strong>откуда приходит реальность</strong>.
+</p>
+
+<h3>4.2. Биологический субстрат</h3>
+
+<p>
+  Eysenck<a class="ref" title="Eysenck, 1967">[21]</a> предложил
+  биологическую теорию: интроверты имеют <strong>хронически более
+  высокий уровень кортикального возбуждения</strong>.
+  Следствие: им нужно <em>меньше</em> внешней стимуляции для
+  достижения оптимума. Экстраверты — наоборот: низкий baseline,
+  поиск стимуляции.
+</p>
+
+<p>
+  Kagan<a class="ref" title="Kagan, 1994">[22]</a> показал это
+  лонгитюдно: <strong>высокореактивные младенцы</strong>
+  (интенсивная моторика и плач в ответ на незнакомое — в 4 месяца)
+  становятся заторможенными/интровертными детьми. Низкореактивные —
+  экстравертными. 75% сохраняют направленность к 7 годам.
+  Корреляция с реактивностью амигдалы.
+</p>
+
+<p>
+  <strong>4 месяца</strong> — это <em>до</em> формирования
+  паттернов привязанности (12-18 месяцев). Третий вектор
+  проявляется раньше первых двух.
+</p>
+
+<h3>4.3. Независимость от первых двух</h3>
+
+<p>
+  Big Five (Costa & McCrae)<a class="ref" title="Costa & McCrae, 1992">[23]</a>:
+  факторный анализ в <strong>36 культурах</strong> устойчиво извлекает
+  Extraversion как ортогональный фактор, статистически независимый от
+  Neuroticism (тревожность / доверие — контур матери) и
+  Conscientiousness (дисциплина / agency — контур отца).
+</p>
+
+<p>
+  Наследуемость: <strong>40-60%</strong>
+  (Bouchard<a class="ref" title="Bouchard et al., 1990">[24]</a>,
+  Minnesota Twin Study). Однояйцевые близнецы, выращенные раздельно,
+  коррелируют по экстраверсии на ~0.50.
+</p>
+
+<p>
+  Корреляции с первыми двумя векторами слабые (~0.20-0.30):
+  ненадёжная привязанность слабо коррелирует с интроверсией
+  (Shaver & Brennan, 1992), но связь слишком мала,
+  чтобы говорить о редуцируемости. Три вектора —
+  <strong>три измерения</strong>.
+</p>
+
+<h3>4.4. От плоскости к объёму</h3>
+
+<figure>
+<pre>
+                    Мир дружелюбен (+)
+                          │
+              Творец      │      Служитель
+                          │
+Сила (+) ────────────────────────────── Слабость (−)
+                          │
+             Контролёр    │       Жертва
+                          │
+                    Мир враждебен (−)
+
+                    ↑ Это — плоскость (2D)
+
+Третий вектор (внутрь/наружу) выходит ИЗ плоскости:
+
+              наружу ←——— ○ ———→ внутрь
+
+Каждая точка плоскости получает глубину.
+Сильный Творец-интроверт ≠ Сильный Творец-экстраверт.
+Один строит в тишине. Другой строит в со-творении.
+Оба — Творцы. Но вектор направлен по-разному.
+</pre>
+<figcaption>
+  Рис. 1. Три вектора образуют трёхмерное пространство.
+  V1 (сила/слабость) × V2 (доверие/недоверие) = плоскость.
+  V3 (внутрь/наружу) = глубина.
+</figcaption>
+</figure>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ============================================================ -->
+<h2>5. Спираль: время превращает объём в развитие</h2>
+
+<div class="box thesis">
+  <h4>Тезис 10</h4>
+  <p>
+    Во времени третий вектор (внутрь/наружу) не статичен —
+    он <strong>осциллирует</strong>. Каждый уровень развития
+    чередует направление: express self (наружу) → sacrifice self
+    (внутрь) → express self. Эта осцилляция, наложенная
+    на рост по первым двум векторам, создаёт <strong>спираль</strong> —
+    описанную Грейвсом как Emergent Cyclical Levels of Existence.
+  </p>
+</div>
+
+<h3>5.1. Спиральная динамика Грейвса</h3>
+
+<p>
+  Clare Graves<a class="ref" title="Graves, 1970">[25]</a>
+  (профессор психологии, Union College) предложил модель, которую
+  Beck и Cowan<a class="ref" title="Beck & Cowan, 1996">[26]</a>
+  назвали Spiral Dynamics. Восемь уровней, каждый из которых
+  чередует направленность:
+</p>
+
+<table>
+  <tr>
+    <th>Уровень</th>
+    <th>Направление</th>
+    <th>Ценность</th>
+    <th>Код</th>
+  </tr>
+  <tr>
+    <td>Beige</td>
+    <td>→ наружу</td>
+    <td>Выживание</td>
+    <td>Инстинкт</td>
+  </tr>
+  <tr>
+    <td>Purple</td>
+    <td>← внутрь</td>
+    <td>Безопасность через принадлежность</td>
+    <td>Племя</td>
+  </tr>
+  <tr>
+    <td>Red</td>
+    <td>→ наружу</td>
+    <td>Власть, доминирование</td>
+    <td>Эго</td>
+  </tr>
+  <tr>
+    <td>Blue</td>
+    <td>← внутрь</td>
+    <td>Порядок, цель, служение</td>
+    <td>Закон</td>
+  </tr>
+  <tr>
+    <td>Orange</td>
+    <td>→ наружу</td>
+    <td>Достижение, успех</td>
+    <td>Рынок</td>
+  </tr>
+  <tr>
+    <td>Green</td>
+    <td>← внутрь</td>
+    <td>Общность, равенство</td>
+    <td>Сообщество</td>
+  </tr>
+  <tr>
+    <td>Yellow</td>
+    <td>→ наружу</td>
+    <td>Интеграция, системное мышление</td>
+    <td>Сеть</td>
+  </tr>
+  <tr>
+    <td>Turquoise</td>
+    <td>← внутрь</td>
+    <td>Холистическое, глобальное</td>
+    <td>Целое</td>
+  </tr>
+</table>
+
+<p>
+  Чередование express self / sacrifice self — это осцилляция
+  третьего вектора во времени. Не маятник (одна плоскость) —
+  <strong>спираль</strong> (каждый возврат «внутрь» происходит
+  на более высоком уровне, чем предыдущий). Purple (внутрь)
+  ≠ Blue (внутрь) ≠ Green (внутрь) — одно направление,
+  разные высоты.
+</p>
+
+<div class="box evidence">
+  <h4>Научный статус</h4>
+  <p>
+    Модель Грейвса основана на 12 годах эмпирических исследований
+    (интервью, лонгитюды, кросс-культурные сравнения), но
+    <strong>не прошла строгую психометрическую валидацию</strong>
+    на уровне Big Five или AAI. Её сила — в описательной когерентности
+    и совпадении с другими стадиальными моделями
+    (Piaget, Kohlberg, Kegan, Loevinger). Её слабость —
+    в отсутствии стандартизированного инструмента измерения
+    и риске герменевтического круга (уровень определяется интерпретатором).
+    Мы используем её как описательную рамку, не как
+    доказательную базу.
+  </p>
+</div>
+
+<h3>5.2. Архетипы как проекции уровней</h3>
+
+<p>
+  Каждый уровень спирали активирует свой <em>архетип</em> —
+  символическую фигуру, через которую человек проживает
+  данный этап. Moore и Gillette описали четыре мужских архетипа
+  (King, Warrior, Magician, Lover), каждый с незрелой (Shadow)
+  и зрелой формой. Pearson расширила до двенадцати.
+</p>
+
+<p>
+  Мы не утверждаем однозначное соответствие (уровень X = архетип Y),
+  но наблюдаем структурное подобие: Red активирует Воина,
+  Blue — Правителя/Законодателя, Orange — Мага/Инноватора,
+  Green — Возлюбленного/Целителя. Смена уровней =
+  <strong>смена архетипов</strong>. Не единожды — многократно
+  за жизнь.
+</p>
+
+<h3>5.3. Piaget и Kegan: параллельные спирали</h3>
+
+<p>
+  Piaget описал когнитивное развитие как чередование
+  <strong>ассимиляции</strong> (встраиваю мир в свою схему, внутрь)
+  и <strong>аккомодации</strong> (меняю схему под мир, наружу).
+  Kegan<a class="ref" title="Kegan, 1982">[27]</a> описал развитие
+  сознания как серию <em>subject-object transitions</em>: то,
+  что на одном уровне было «субъектом» (невидимо, растворён в нём),
+  на следующем становится «объектом» (видимо, могу им оперировать).
+  Каждый переход чередует: embedded (внутрь) → differentiated (наружу).
+</p>
+
+<p>
+  Та же спираль. Тот же третий вектор, осциллирующий во времени.
+</p>
+
+<div class="box note">
+  <h4>Нейронный субстрат осцилляции</h4>
+  <p>
+    Default Mode Network (DMN) — сеть покоя — активна при
+    внутреннем обращении: воспоминания, планы, самореферентность.
+    Task-Positive Network (TPN) — при взаимодействии с внешним
+    миром. Они находятся в <strong>антикорреляции</strong>:
+    когда одна активна, другая подавлена. Это нейронная реализация
+    осцилляции внутрь/наружу — не метафора, а измеримый
+    биологический ритм.
+  </p>
+</div>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ============================================================ -->
+<h2>6. Выводы Части II</h2>
+
+<p>
+  <strong>1.</strong> Первый вектор (контур матери) формирует
+  <em>отношение к миру</em> — доверие или недоверие.
+  Формируется в 0-18 месяцев через аффективную синхронизацию
+  с primary caregiver. Нейробиологическая основа: правое полушарие,
+  созревающее первым.
+</p>
+
+<p>
+  <strong>2.</strong> Второй вектор (контур отца) формирует
+  <em>силу</em> — agency, саморегуляцию, способность действовать.
+  Формируется в 2-5 лет через activation relationship.
+  Грубая игра с лимитами — механизм калибровки амплитуды.
+</p>
+
+<p>
+  <strong>3.</strong> Оба вектора передаются через поколения
+  по довербальному каналу: правополушарная синхронизация,
+  эпигенетическое программирование, implicit relational knowing.
+  AAI до рождения предсказывает привязанность через год (N=2774).
+  Этот канал невидим поведенческой генетике.
+</p>
+
+<p>
+  <strong>4.</strong> Третий вектор — направленность энергии
+  (внутрь/наружу) — независим от первых двух, наблюдается с 4 месяцев,
+  наследуется на 40-60%, имеет нейрологический субстрат
+  (кортикальное возбуждение, DMN/TPN антикорреляция).
+  Два вектора дают плоскость. Третий даёт объём.
+</p>
+
+<p>
+  <strong>5.</strong> Во времени третий вектор осциллирует,
+  создавая спираль развития. Spiral Dynamics Грейвса,
+  стадии Kegan, стадии Piaget — три проекции одной спирали.
+  Каждый уровень активирует свой архетип.
+  Смена архетипов — не разовое событие, а ритм жизни.
+</p>
+
+<p>
+  <em>В Части III мы покажем, что эта спираль, спроецированная
+  на ось времени, порождает нарратив — описанный Кэмпбеллом
+  как Путь Героя.</em>
+</p>
+
+<p class="sep">&bull; &bull; &bull;</p>
+
+<!-- ============================================================ -->
+<div class="references">
+<h2>Источники</h2>
+
+<ol>
+  <li id="r1">Winnicott, D.W. (1971). <em>Playing and Reality.</em> Tavistock Publications. Концепция «mirroring»: лицо матери как первое зеркало self.</li>
+  <li id="r2">Stern, D.N. (1985). <em>The Interpersonal World of the Infant.</em> Basic Books. Affect attunement: мать соответствует внутреннему состоянию, не поведению.</li>
+  <li id="r3">Bion, W.R. (1962). <em>Learning from Experience.</em> Heinemann. Container-Contained: мать перерабатывает невыносимый опыт младенца.</li>
+  <li id="r4">Tronick, E. et al. (1978). «The Infant's Response to Entrapment between Contradictory Messages in Face-to-Face Interaction.» <em>J. Am. Acad. Child Psychiatry,</em> 17(1), 1-13. Still Face Experiment, 80+ репликаций.</li>
+  <li id="r5">Ainsworth, M.D.S. et al. (1978). <em>Patterns of Attachment.</em> Lawrence Erlbaum. Strange Situation: три паттерна привязанности.</li>
+  <li id="r6">Erikson, E.H. (1950). <em>Childhood and Society.</em> W.W. Norton. Trust vs. Mistrust, Autonomy vs. Shame/Doubt.</li>
+  <li id="r7">Schore, A.N. (1994). <em>Affect Regulation and the Origin of the Self.</em> Lawrence Erlbaum. Правое полушарие созревает первым; привязанность формирует лимбико-автономные контуры.</li>
+  <li id="r8">Perry, B.D. (2009). «Examining Child Maltreatment Through a Neurodevelopmental Lens.» <em>J. Loss and Trauma,</em> 14, 240-255. Мозг развивается снизу вверх; 90% к 5 годам.</li>
+  <li id="r9">Van der Kolk, B.A. (2014). <em>The Body Keeps the Score.</em> Viking. Довербальная травма; зона Брока отключается при флешбэке.</li>
+  <li id="r10">Bowlby, J. (1969). <em>Attachment and Loss, Vol. 1: Attachment.</em> Basic Books. Internal Working Models, secure base.</li>
+  <li id="r11">Paquette, D. (2004). «Theorizing the Father-Child Relationship.» <em>Human Development,</em> 47(4), 193-219. Activation Relationship Theory.</li>
+  <li id="r12">Lamb, M.E. (Ed.) (2010). <em>The Role of the Father in Child Development</em> (5th ed.). Wiley.</li>
+  <li id="r13">Flanders, J.L. et al. (2009). «Rough-and-Tumble Play and the Regulation of Aggression.» <em>Aggressive Behavior,</em> 35(4), 285-295.</li>
+  <li id="r14">Grossmann, K. et al. (2002). «The Uniqueness of the Child-Father Attachment Relationship.» <em>Social Development,</em> 11(3), 307-331. 16-летнее лонгитюдное исследование.</li>
+  <li id="r15">Fraiberg, S. et al. (1975). «Ghosts in the Nursery.» <em>J. Am. Acad. Child Psychiatry,</em> 14(3), 387-421.</li>
+  <li id="r16">Main, M. & Hesse, E. (1990). «Parents' Unresolved Traumatic Experiences Are Related to Infant Disorganized Attachment Status.» In <em>Attachment in the Preschool Years,</em> U. of Chicago Press. AAI до рождения предсказывает привязанность (N=2774).</li>
+  <li id="r17">Weaver, I.C.G. et al. (2004). «Epigenetic Programming by Maternal Behavior.» <em>Nature Neuroscience,</em> 7(8), 847-854. Meaney Lab. Кросс-фостеринг обращает эпигенетический эффект.</li>
+  <li id="r18">Yehuda, R. et al. (2016). «Holocaust Exposure Induced Intergenerational Effects on FKBP5 Methylation.» <em>Biological Psychiatry,</em> 80(5), 372-380.</li>
+  <li id="r19">van IJzendoorn, M.H. (1995). «Adult Attachment Representations, Parental Responsiveness, and Infant Attachment: A Meta-Analysis.» <em>Psychological Bulletin,</em> 117(3), 387-403. Transmission gap.</li>
+  <li id="r20">Jung, C.G. (1921). <em>Psychologische Typen.</em> Rascher Verlag. Introversion/extroversion как фундаментальная ориентация психики.</li>
+  <li id="r21">Eysenck, H.J. (1967). <em>The Biological Basis of Personality.</em> Charles C. Thomas. Кортикальное возбуждение как субстрат интроверсии.</li>
+  <li id="r22">Kagan, J. (1994). <em>Galen's Prophecy: Temperament in Human Nature.</em> Basic Books. Высокореактивные младенцы (4 мес.) → заторможенные дети.</li>
+  <li id="r23">Costa, P.T. & McCrae, R.R. (1992). <em>NEO-PI-R Professional Manual.</em> PAR. Big Five: пять ортогональных факторов в 36 культурах.</li>
+  <li id="r24">Bouchard, T.J. et al. (1990). «Sources of Human Psychological Differences: The Minnesota Study of Twins Reared Apart.» <em>Science,</em> 250, 223-228. Экстраверсия: ~50% наследуемость.</li>
+  <li id="r25">Graves, C.W. (1970). «Levels of Existence: An Open System Theory of Values.» <em>J. of Humanistic Psychology,</em> 10(2), 131-155.</li>
+  <li id="r26">Beck, D.E. & Cowan, C.C. (1996). <em>Spiral Dynamics: Mastering Values, Leadership and Change.</em> Blackwell.</li>
+  <li id="r27">Kegan, R. (1982). <em>The Evolving Self: Problem and Process in Human Development.</em> Harvard University Press. Subject-object transitions.</li>
+</ol>
+</div>
+
+</article>
+
+<footer>
+  <p>
+    Исследование подготовлено в марте 2026 года.
+    Не является инвестиционной рекомендацией.
+    Не представляет позицию какой-либо организации.
+  </p>
+  <p style="margin-top: 8px;">
+    Воспроизведение с указанием источника приветствуется.
+  </p>
+</footer>
+
+</body>
+</html>
